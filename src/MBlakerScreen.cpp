@@ -106,6 +106,7 @@ void MBlakerScreen::DoUpdateUI(HWND hwnd)
     if (m_iPage == (UINT)m_bitmaps.size())
     {
         EnableWindow(GetDlgItem(m_screen_image_dialog, psh1), FALSE);
+        SetFocus(GetDlgItem(m_screen_image_dialog, IDCLOSE));
     }
     else
     {

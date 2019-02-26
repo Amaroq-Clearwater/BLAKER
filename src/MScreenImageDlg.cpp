@@ -125,4 +125,11 @@ void MScreenImageDlg::OnDrawItem(HWND hwnd, const DRAWITEMSTRUCT * lpDrawItem)
         rcItem.bottom = y + sizText.cy;
         DrawText(hDC, szText, lstrlen(szText), &rcItem, DT_CENTER);
     }
+
+    if (lpDrawItem->itemState & ODS_FOCUS)
+    {
+        rcItem = lpDrawItem->rcItem;
+        InflateRect(&rcItem, -10, -10);
+        DrawFocusRect(hDC, &rcItem);
+    }
 }

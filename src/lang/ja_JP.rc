@@ -119,7 +119,7 @@ CAPTION "BLAKER Images"
 STYLE DS_CONTROL | WS_CHILD | WS_CAPTION
 FONT 16, "MS UI Gothic"
 {
-    LTEXT "BLAKER Images", stc1, 5, 5, 190, 10
+    LTEXT "BLAKER Images - 画像で転送する", stc1, 5, 5, 190, 10
     LTEXT "XX / YY", stc3, 5, 15, 190, 10
     CONTROL "", stc2, "STATIC", SS_BLACKRECT, 5, 30, 115, 115
     PUSHBUTTON "次へ進む(&N)\n\nNext Image", psh1, 125, 30, 70, 35, BS_MULTILINE
@@ -142,7 +142,7 @@ CAPTION "BLAKER Movie"
 STYLE DS_CONTROL | WS_CHILD | WS_CAPTION
 FONT 16, "MS UI Gothic"
 {
-    LTEXT "BLAKER Movie", stc1, 5, 5, 190, 10
+    LTEXT "BLAKER Movie - 動画で転送する", stc1, 5, 5, 190, 10
     LTEXT "XX / YY", stc3, 5, 15, 190, 10
     CONTROL "", stc2, "STATIC", SS_BLACKRECT, 5, 30, 115, 115
     PUSHBUTTON "再スタート(&R)\n\nRestart", psh1, 125, 30, 70, 35, BS_MULTILINE
