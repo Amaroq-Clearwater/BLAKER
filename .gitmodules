@@ -1,0 +1,27 @@
+[submodule "libqrencode"]
+	path = libqrencode
+	url = https://github.com/katahiromz/libqrencode.git
+[submodule "base64"]
+	path = base64
+	url = https://github.com/katahiromz/base64.git
+[submodule "katahiromz_pdfium"]
+	path = katahiromz_pdfium
+	url = https://github.com/katahiromz/katahiromz_pdfium.git
+[submodule "zbar"]
+	path = zbar
+	url = https://github.com/katahiromz/zbar.git
+[submodule "comp_decomp"]
+	path = comp_decomp
+	url = https://github.com/katahiromz/comp_decomp.git
+[submodule "mstr"]
+	path = mstr
+	url = https://github.com/katahiromz/mstr.git
+[submodule "microtar"]
+	path = microtar
+	url = https://github.com/katahiromz/microtar.git
+[submodule "DeleteDirectory"]
+	path = DeleteDirectory
+	url = https://github.com/katahiromz/DeleteDirectory.git
+[submodule "fp_wrap"]
+	path = fp_wrap
+	url = https://github.com/katahiromz/fp_wrap.git
