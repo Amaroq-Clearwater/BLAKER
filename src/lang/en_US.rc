@@ -185,7 +185,7 @@ STRINGTABLE
     IDS_EXCEEDMAXPAGE, "Max page exceeded."
     IDS_COMPRESSFAIL, "Data Compression Error!"
     IDS_CANTLOADPDFLIB, "Unable to load pdfium.dll ."
-    IDS_INVALIDDATA, "Invalid data."
+    IDS_EMPTY_DATA, "Data is empty."
     IDS_NODATA, "(No data)"
     IDS_TOOLARGEFILE, "Too large file."
     IDS_PRINTERR, "Print Error!"
@@ -222,6 +222,8 @@ STRINGTABLE
     IDS_CANCELLED, "Processing was canceled by user."
     IDS_DONE, "Done."
     IDS_BLAKER_PAPERS, "BLAKER Papers"
+    IDS_CANTCREATETEMPDIR, "Unable to create a temporary directory."
+    IDS_RAWQRLIMIT, "A raw QR code cannot store multiple binary data."
 }
 
 //////////////////////////////////////////////////////////////////////////////

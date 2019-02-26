@@ -8,7 +8,8 @@
 #define TIMER_2 888
 #define TIMER_3 999
 
-MBlakerScreen::MBlakerScreen(BOOL bMovie)
+MBlakerScreen::MBlakerScreen(Renderer& renderer, BOOL bMovie)
+    : m_stc2(renderer)
 {
     m_hIcon = LoadIconDx(1);
     m_hIconSm = LoadSmallIconDx(1);

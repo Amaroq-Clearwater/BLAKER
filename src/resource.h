@@ -20,7 +20,7 @@
 #define IDS_EXCEEDMAXPAGE                   101
 #define IDS_COMPRESSFAIL                    102
 #define IDS_CANTLOADPDFLIB                  103
-#define IDS_INVALIDDATA                     104
+#define IDS_EMPTY_DATA                      104
 #define IDS_NODATA                          105
 #define IDS_TOOLARGEFILE                    106
 #define IDS_PRINTERR                        107
@@ -57,6 +57,8 @@
 #define IDS_CANCELLED                       138
 #define IDS_DONE                            139
 #define IDS_BLAKER_PAPERS                   140
+#define IDS_CANTCREATETEMPDIR               141
+#define IDS_RAWQRLIMIT                      142
 
 #define ID_EXIT                             100
 #define ID_PAGESETUP                        101

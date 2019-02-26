@@ -2,11 +2,12 @@
 #define MSPECIAL_STATIC_HPP_
 
 #include "MWindowBase.hpp"
+#include "Renderer.hpp"
 
 class MSpecialStatic : public MWindowBase
 {
 public:
-    MSpecialStatic();
+    MSpecialStatic(Renderer& renderer);
     virtual ~MSpecialStatic();
 
     void SetBitmap(HBITMAP hbm);
@@ -25,6 +26,7 @@ public:
 
 protected:
     HBITMAP m_hbm;
+    Renderer& m_renderer;
 
     BOOL OnEraseBkgnd(HWND hwnd, HDC hdc);
     void OnPaint(HWND hwnd);

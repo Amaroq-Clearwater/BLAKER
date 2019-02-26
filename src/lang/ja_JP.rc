@@ -185,7 +185,7 @@ STRINGTABLE
     IDS_EXCEEDMAXPAGE, "最大ページ数を超えました。"
     IDS_COMPRESSFAIL, "データ圧縮エラーです。"
     IDS_CANTLOADPDFLIB, "pdfium.dllを読み込めません。"
-    IDS_INVALIDDATA, "不正なデータです。"
+    IDS_EMPTY_DATA, "データは空っぽです。"
     IDS_NODATA, "(データはありません)"
     IDS_TOOLARGEFILE, "データが大きすぎるファイルです。"
     IDS_PRINTERR, "印刷エラーです。"
@@ -222,6 +222,8 @@ STRINGTABLE
     IDS_CANCELLED, "ユーザーによって処理はキャンセルされました。"
     IDS_DONE, "完了。"
     IDS_BLAKER_PAPERS, "BLAKER Papers"
+    IDS_CANTCREATETEMPDIR, "一時フォルダーが作成できません。"
+    IDS_RAWQRLIMIT, "生QRコードは複数のバイナリーデータを格納できません。"
 }
 
 //////////////////////////////////////////////////////////////////////////////

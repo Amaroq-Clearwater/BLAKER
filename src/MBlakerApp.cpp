@@ -354,7 +354,26 @@ BOOL MBlakerApp::DoLoadPdfium(HWND hwnd, katahiromz_pdfium& pdfium)
 #else
     StringCbCatW(szPath, sizeof(szPath), L"katahiromz_pdfium/x86/pdfium.dll");
 #endif
-    pdfium.load(szPath);
+    if (!pdfium.load(szPath))
+    {
+        *pch = 0;
+#ifdef _WIN64
+        StringCbCatW(szPath, sizeof(szPath), L"../katahiromz_pdfium/x64/pdfium.dll");
+#else
+        StringCbCatW(szPath, sizeof(szPath), L"../katahiromz_pdfium/x86/pdfium.dll");
+#endif
+        pdfium.load(szPath);
+    }
+    if (!pdfium.is_loaded())
+    {
+        *pch = 0;
+#ifdef _WIN64
+        StringCbCatW(szPath, sizeof(szPath), L"../../katahiromz_pdfium/x64/pdfium.dll");
+#else
+        StringCbCatW(szPath, sizeof(szPath), L"../../katahiromz_pdfium/x86/pdfium.dll");
+#endif
+        pdfium.load(szPath);
+    }
     if (!pdfium.is_loaded())
     {
         pdfium.load(TEXT("pdfium.dll"));
@@ -673,7 +692,7 @@ BOOL MBlakerApp::DoScanBinaries(HWND hwnd, std::vector<std::string>& binaries)
     {
         ListView_DeleteAllItems(m_hListView);
         InvalidateRect(hwnd, NULL, TRUE);
-        ErrorBoxDx(IDS_INVALIDDATA);
+        ErrorBoxDx(IDS_INVALID_DATA);
         return FALSE;
     }
 
@@ -699,16 +718,16 @@ BOOL MBlakerApp::DoScanBinaries(HWND hwnd, std::vector<std::string>& binaries)
     std::string tar;
     if (int error = tbz2tar(&tbz[0], tbz.size(), tar))
     {
-        // TODO:
         assert(0);
+        ErrorBoxDx(IDS_INVALID_DATA);
         return FALSE;
     }
 
     BINS bins;
     if (int error = tar2bins(&tar[0], tar.size(), bins))
     {
-        // TODO:
         assert(0);
+        ErrorBoxDx(IDS_INVALID_DATA);
         return FALSE;
     }
 
@@ -774,8 +793,8 @@ void MBlakerApp::OnSaveAs(HWND hwnd)
 {
     if (m_bins.empty())
     {
-        // TODO:
         assert(0);
+        ErrorBoxDx(IDS_EMPTY_DATA);
         return;
     }
 
@@ -877,17 +896,24 @@ BOOL MBlakerApp::DoDestroyImages(std::vector<HBITMAP>& bitmaps)
 INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
                                      SIZE sizImage, BOOL bTest)
 {
+    if (m_bins.empty())
+    {
+        assert(0);
+        ErrorBoxDx(IDS_EMPTY_DATA);
+        return 0;
+    }
+
     std::string tar, tbz;
     if (int error = bins2tar(m_bins, tar))
     {
-        // TODO:
         assert(0);
+        ErrorBoxDx(IDS_INVALID_DATA);
         return 0;
     }
     if (int error = tar2tbz(&tar[0], tar.size(), tbz))
     {
-        // TODO:
         assert(0);
+        ErrorBoxDx(IDS_INVALID_DATA);
         return 0;
     }
     tar.clear();
@@ -1008,7 +1034,7 @@ BOOL MBlakerApp::DoScreenImages(HWND hwnd)
 {
     ::EnableWindow(hwnd, FALSE);
 
-    MBlakerScreen screen(FALSE);
+    MBlakerScreen screen(m_renderer, FALSE);
 
     if (!screen.CreateDialogDx(hwnd, IDD_IMAGES_MOVIE))
     {
@@ -1075,7 +1101,7 @@ BOOL MBlakerApp::DoScreenMovie(HWND hwnd)
 {
     ::EnableWindow(hwnd, FALSE);
 
-    MBlakerScreen screen(TRUE);
+    MBlakerScreen screen(m_renderer, TRUE);
 
     if (!screen.CreateDialogDx(hwnd, IDD_IMAGES_MOVIE))
     {
@@ -1204,8 +1230,8 @@ void MBlakerApp::OnBeginDrag(HWND hwnd)
     std::wstring temp_dir;
     if (!CreateTempDir(temp_dir))
     {
-        // TODO:
         assert(0);
+        ErrorBoxDx(IDS_CANTCREATETEMPDIR);
         return;
     }
     m_temp_dirs.push_back(temp_dir);
@@ -1248,8 +1274,6 @@ void MBlakerApp::OnBeginDrag(HWND hwnd)
         // create temporary file
         if (!DoSave(hwnd, szFile, m_bins[i].binary))
         {
-            // TODO:
-            assert(0);
             return;
         }
 
@@ -1339,8 +1363,8 @@ void MBlakerApp::OnSaveSelection(HWND hwnd)
 {
     if (m_bins.empty())
     {
-        // TODO:
         assert(0);
+        ErrorBoxDx(IDS_EMPTY_DATA);
         return;
     }
 
@@ -1710,14 +1734,14 @@ BOOL MBlakerApp::DoPrintPages(HWND hwnd, HDC hDC, LPCWSTR pszDocName)
     {
         if (int error = bins2tar(m_bins, tar))
         {
-            // TODO:
             assert(0);
+            ErrorBoxDx(IDS_INVALID_DATA);
             return 0;
         }
         if (int error = tar2tbz(&tar[0], tar.size(), bin))
         {
-            // TODO:
             assert(0);
+            ErrorBoxDx(IDS_INVALID_DATA);
             return 0;
         }
     }
@@ -1725,8 +1749,8 @@ BOOL MBlakerApp::DoPrintPages(HWND hwnd, HDC hDC, LPCWSTR pszDocName)
     {
         if (m_bins.size() != 1)
         {
-            // TODO:
             assert(0);
+            ErrorBoxDx(IDS_RAWQRLIMIT);
             return 0;
         }
         bin = m_bins[0].binary;
@@ -1940,6 +1964,8 @@ quit:
                                 y += cxMargin;
                                 StretchBlt(hDC, x, y, cx, cy,
                                            hdcMem, 0, 0, cxQR, cyQR, SRCCOPY);
+                                m_renderer.drawString(hDC, "BLAKER",
+                                    x, y - cyChar / 2, cxChar / 2, cyChar / 2);
                             }
                             SelectObject(hdcMem, hbmOld);
                             DeleteDC(hdcMem);
@@ -2106,6 +2132,8 @@ quit:
                                     {
                                         StretchBlt(hDC, x, y, cx, cy,
                                                    hdcMem, 0, 0, cxQR, cyQR, SRCCOPY);
+                                        m_renderer.drawString(hDC, "BLAKER",
+                                            x, y - cyChar / 2, cxChar / 2, cyChar / 2);
                                     }
                                     SelectObject(hdcMem, hbmOld);
                                     DeleteDC(hdcMem);

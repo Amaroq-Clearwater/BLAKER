@@ -15,7 +15,7 @@ public:
     BOOL m_bOK;
     BOOL m_bMovie;
 
-    MBlakerScreen(BOOL bMovie);
+    MBlakerScreen(Renderer& renderer, BOOL bMovie);
     virtual ~MBlakerScreen();
 
     BOOL SetControlDialog(HWND hwnd, MDialogBase& dialog, INT nID);
