@@ -1,6 +1,6 @@
 # BLAKER
 
-BLAKER is a Windows application for transferring files via papers, images, and/or movies.
+BLAKER is a Windows application for transferring files via papers, images, or movies.
 
 ## How to use BLAKER Papers
 
