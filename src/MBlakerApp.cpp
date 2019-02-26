@@ -632,6 +632,7 @@ BOOL MBlakerApp::DoScanMovie(HWND hwnd, LPCWSTR pszMovieFile, PROGRESS_INFO *inf
     if (!cap.isOpened())
     {
         assert(0);
+        ErrorBoxDx(IDS_INVALID_DATA);
         return FALSE;
     }
 
