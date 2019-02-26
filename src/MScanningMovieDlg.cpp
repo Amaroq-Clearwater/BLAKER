@@ -51,7 +51,7 @@ void MScanningMovieDlg::OnTimer(HWND hwnd, UINT id)
         KillTimer(hwnd, 999);
         return;
     }
-    SetDlgItemText(hwnd, stc1, LoadStringPrintfDx(IDS_PROGRESSING, m_info->cPages));
+    SetDlgItemText(hwnd, stc1, LoadStringPrintfDx(IDS_PROGRESSING, m_info->nCount));
     SendDlgItemMessage(hwnd, ctl1, PBM_STEPIT, 0, 0);
 }
 
@@ -60,7 +60,7 @@ static unsigned __stdcall the_thread_function(void *arg)
     PROGRESS_INFO *info = (PROGRESS_INFO *)arg;
 
     info->bCancelled = FALSE;
-    info->cPages = 0;
+    info->nCount = 0;
 
     info->app->DoScanMovie(*info->app, info->pszFile, info);
 

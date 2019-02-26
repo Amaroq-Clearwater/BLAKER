@@ -13,44 +13,36 @@ class MScanningMovieDlg;
 
 struct PROGRESS_INFO
 {
-    MBlakerApp *app = NULL;
-    MScanningMovieDlg *dialog = NULL;
-    BOOL bCancelled = FALSE;
-    INT cPages = 0;
-    LPCWSTR pszFile = NULL;
+    MBlakerApp *        app;
+    MScanningMovieDlg * dialog;
+    BOOL                bCancelled;
+    INT                 nCount;
+    LPCWSTR             pszFile;
+
+    PROGRESS_INFO()
+    {
+        app = NULL;
+        dialog = NULL;
+        bCancelled = FALSE;
+        nCount = 0;
+        pszFile = NULL;
+    }
 };
 
 class MBlakerApp : public MWindowBase
 {
 public:
-    HINSTANCE   m_hInst;        // the instance handle
-    HICON       m_hIcon;        // the main icon
-    HICON       m_hIconSm;      // the small icon
-    HACCEL      m_hAccel;       // the access keys
-    INT m_nCommandExecCount;
-    HWND m_hMainWnd = NULL;
-    HWND m_hListView = NULL;
-    BOOL AddListViewColumns();
-    HWND m_hStatusWnd = NULL;
-
-    HIMAGELIST m_hImageList = NULL;
-    BOOL ReCreateImageList();
-
-    BINS m_bins;
-    std::vector<std::wstring> m_temp_dirs;
-    BOOL CreateTempDir(std::wstring& full_path);
-
-    MPrintHelperEx m_helper;
-    Renderer m_renderer;
     enum METHOD
     {
         METHOD_QRCODE,
         METHOD_QRCODE_META,
         METHOD_BASE64,
     };
-    METHOD m_method = METHOD_QRCODE_META;
-    INT m_cParts = 0, m_cPages = 0;
-    BOOL m_bMeTa = FALSE;
+
+    BOOL AddListViewColumns();
+    BOOL ReCreateImageList();
+
+    BOOL CreateTempDir(std::wstring& full_path);
 
     MBlakerApp(HINSTANCE hInst);
     virtual ~MBlakerApp();
@@ -96,6 +88,24 @@ public:
     }
 
 protected:
+    HINSTANCE   m_hInst;        // the instance handle
+    HICON       m_hIcon;        // the main icon
+    HICON       m_hIconSm;      // the small icon
+    HACCEL      m_hAccel;       // the access keys
+    HWND        m_hMainWnd;
+    HWND        m_hListView;
+    HWND        m_hStatusWnd;
+    HIMAGELIST  m_hImageList;
+    INT         m_nCommandExecCount;
+    BINS        m_bins;
+    METHOD      m_method;
+    INT         m_cParts;
+    INT         m_cPages;
+    BOOL        m_bMeTa;
+    Renderer    m_renderer;
+    std::vector<std::wstring>   m_temp_dirs;
+    MPrintHelperEx              m_helper;
+
     BOOL OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);
     void OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify);
     void OnDestroy(HWND hwnd);

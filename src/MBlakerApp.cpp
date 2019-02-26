@@ -25,6 +25,15 @@ MBlakerApp::MBlakerApp(HINSTANCE hInst)
     m_nCommandExecCount = 0;
     m_hIcon = LoadIconDx(1);
     m_hIconSm = LoadSmallIconDx(1);
+
+    m_hMainWnd = NULL;
+    m_hListView = NULL;
+    m_hStatusWnd = NULL;
+    m_hImageList = NULL;
+    m_method = METHOD_QRCODE_META;
+    m_cParts = 0;
+    m_cPages = 0;
+    m_bMeTa = FALSE;
 }
 
 MBlakerApp::~MBlakerApp()
@@ -163,7 +172,7 @@ BOOL MBlakerApp::ReCreateImageList()
         m_hImageList = NULL;
     }
 
-    m_hImageList = ImageList_Create(16, 16, ILC_COLOR | ILC_MASK, 10, 10);
+    m_hImageList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 10, 10);
     ListView_SetImageList(m_hListView, m_hImageList, LVSIL_SMALL);
 
     return m_hImageList != NULL;
@@ -651,7 +660,7 @@ BOOL MBlakerApp::DoScanMovie(HWND hwnd, LPCWSTR pszMovieFile, PROGRESS_INFO *inf
             return FALSE;
         }
 
-        info->cPages++;
+        info->nCount++;
 
         // scan bitmap
         QR_CALLBACK_DATA callback(binaries, iPage, m_bMeTa);
