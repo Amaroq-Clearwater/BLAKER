@@ -1998,7 +1998,7 @@ quit:
         break;
     case METHOD_QRCODE_META:
         {
-            const char *method_str = "MeTa QR";
+            const char *method_str = "Blaker QR";
             char szMeTa[64];
             StringCbPrintfA(szMeTa, sizeof(szMeTa), "MeTa>XX>YY>%s|", hash.c_str());
             INT nMeTaLen = lstrlenA(szMeTa);
