@@ -3,7 +3,7 @@
 // This file is public domain software.
 
 #ifndef MPRINT_HELPER_HPP_
-#define MPRINT_HELPER_HPP_      7   // Version 7
+#define MPRINT_HELPER_HPP_      8   // Version 8
 
 #include <windows.h>
 #include <commdlg.h>
@@ -123,6 +123,7 @@ inline BOOL MPrintHelper::InitPageSetup(HWND hwnd)
         minm.right = Inch1000FromMM100(minm.right);
         minm.bottom = Inch1000FromMM100(minm.bottom);
     }
+    return TRUE;
 }
 
 inline RECT& MPrintHelper::Margins()

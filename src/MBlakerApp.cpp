@@ -1361,6 +1361,7 @@ BOOL MBlakerApp::DoLoadSettings(BLAKER_SETTINGS& settings)
 
     WCHAR szText[300];
     DWORD cb;
+    BOOL bLoaded = FALSE;
 
     HKEY hCompany = NULL;
     ::RegOpenKeyExW(hSoftware, L"Katayama Hirofumi MZ", 0, KEY_READ, &hCompany);
@@ -1383,11 +1384,14 @@ BOOL MBlakerApp::DoLoadSettings(BLAKER_SETTINGS& settings)
                 }
             }
 
+            bLoaded = TRUE;
             ::RegCloseKey(hApp);
         }
         ::RegCloseKey(hCompany);
     }
     ::RegCloseKey(hSoftware);
+
+    return bLoaded;
 }
 
 BOOL MBlakerApp::DoSaveSettings(const BLAKER_SETTINGS& settings)
