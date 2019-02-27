@@ -1,6 +1,7 @@
 #include "stdafx.hpp"
 #include <vfw.h>
 #include "MAboutDlg.hpp"
+#include "MSettingsDlg.hpp"
 
 // make 32-bpp top-down DIB
 HBITMAP Create32BppBitmap(HDC hDC, INT cx, INT cy, VOID **ppvBits = NULL)
@@ -1476,6 +1477,12 @@ void MBlakerApp::OnOpenReadMe(HWND hwnd)
     ShellExecute(hwnd, NULL, szPath, NULL, NULL, 0);
 }
 
+void MBlakerApp::OnSettings(HWND hwnd)
+{
+    MSettingsDlg dialog(m_settings);
+    dialog.DialogBoxDx(hwnd);
+}
+
 void MBlakerApp::OnSaveSelection(HWND hwnd)
 {
     if (m_bins.empty())
@@ -1702,6 +1709,9 @@ void MBlakerApp::OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
         break;
     case ID_OPEN_README:
         OnOpenReadMe(hwnd);
+        break;
+    case ID_SETTINGS:
+        OnSettings(hwnd);
         break;
     }
 

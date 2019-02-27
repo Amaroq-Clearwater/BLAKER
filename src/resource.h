@@ -15,6 +15,7 @@
 #define IDD_IMAGES_MOVIE                    8
 #define IDD_SCANNING_MOVIE                  9
 #define IDD_ABOUT                           10
+#define IDD_SETTINGS                        11
 
 #define IDS_CANTGENQRCODE                   100
 #define IDS_EXCEEDMAXPAGE                   101
@@ -80,12 +81,13 @@
 #define ID_SAVE_SELECTION                   117
 #define ID_ABOUT                            118
 #define ID_OPEN_README                      119
+#define ID_SETTINGS                         120
 
 #ifdef APSTUDIO_INVOKED
     #ifndef APSTUDIO_READONLY_SYMBOLS
         #define _APS_NO_MFC                 1
         #define _APS_NEXT_RESOURCE_VALUE    100
-        #define _APS_NEXT_COMMAND_VALUE     120
+        #define _APS_NEXT_COMMAND_VALUE     121
         #define _APS_NEXT_CONTROL_VALUE     1000
         #define _APS_NEXT_SYMED_VALUE       300
     #endif

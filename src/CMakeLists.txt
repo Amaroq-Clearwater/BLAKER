@@ -67,6 +67,7 @@ add_executable(BLAKER WIN32
     MScanImagesDlg.cpp
     MScanningMovieDlg.cpp
     MScreenImageDlg.cpp
+    MSettingsDlg.cpp
     MSpecialStatic.cpp
     MStartScreenDlg.cpp
     QRCode.cpp

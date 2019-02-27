@@ -8,6 +8,7 @@
 #include "katahiromz_pdfium.h"
 #include "QRCode.hpp"
 #include "tbz.hpp"
+#include "Settings.hpp"
 
 class MScanningMovieDlg;
 
@@ -27,11 +28,6 @@ struct PROGRESS_INFO
         nCount = 0;
         pszFile = NULL;
     }
-};
-
-struct BLAKER_SETTINGS
-{
-    float eDotSize = 0.02;     // 0.02 inch
 };
 
 class MBlakerApp : public MWindowBase
@@ -140,6 +136,7 @@ protected:
     void OnSaveSelection(HWND hwnd);
     void OnAbout(HWND hwnd);
     void OnOpenReadMe(HWND hwnd);
+    void OnSettings(HWND hwnd);
 
     struct QR_CALLBACK_DATA
     {
