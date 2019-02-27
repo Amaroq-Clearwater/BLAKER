@@ -59,7 +59,7 @@ int qr_width_from_bytes(size_t bytes)
     return 0;
 }
 
-size_t qr_best_bytes_from_space(float space, size_t bytes)
+size_t qr_best_bytes_from_space(float space, size_t bytes, float eDotSize)
 {
     if (bytes > QR_MAX_BYTES)
         bytes = QR_MAX_BYTES;
@@ -71,7 +71,7 @@ size_t qr_best_bytes_from_space(float space, size_t bytes)
     for (ssize_t n = bytes; n >= 21; --n)
     {
         int width = qr_width_from_bytes(n);
-        if (space > width * QR_DOT_SIZE)
+        if (space > width * eDotSize)
             return n;
     }
 

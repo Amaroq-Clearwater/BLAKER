@@ -91,11 +91,15 @@ BOOL MBlakerApp::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct)
         DoLoad(hwnd, wargv[1]);
     GlobalFree(wargv);
 
+    DoLoadSettings(m_settings);
+
     return TRUE;
 }
 
 void MBlakerApp::OnDestroy(HWND hwnd)
 {
+    DoSaveSettings(m_settings);
+
     for (size_t i = 0; i < m_temp_dirs.size(); ++i)
     {
         const std::wstring& dir = m_temp_dirs[i];
@@ -107,6 +111,7 @@ void MBlakerApp::OnDestroy(HWND hwnd)
         }
         DeleteDirectoryW(dir.c_str());
     }
+
     ::PostQuitMessage(0);
 }
 
@@ -972,15 +977,15 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
                 bytes = nMaxQRData;
 
             int qr_width = qr_width_from_bytes(bytes);
-            INT width = m_helper.PixelsFromInchesX(hDC, qr_width * QR_DOT_SIZE);
-            INT height = m_helper.PixelsFromInchesY(hDC, qr_width * QR_DOT_SIZE);
+            INT width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
+            INT height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
             cx = LONG(width);
             cy = LONG(height);
             if (qr_width == 0 || bytes <= nMeTaLen)
                 break;
 
-            while (m_helper.InchesFromPixelsX(hDC, cx) / qr_width < QR_DOT_SIZE &&
-                   m_helper.InchesFromPixelsY(hDC, cy) / qr_width < QR_DOT_SIZE &&
+            while (m_helper.InchesFromPixelsX(hDC, cx) / qr_width < m_settings.eDotSize &&
+                   m_helper.InchesFromPixelsY(hDC, cy) / qr_width < m_settings.eDotSize &&
                    (cx > sizImage.cx || cy > sizImage.cy))
             {
                 if (bytes <= nMeTaLen)
@@ -989,8 +994,8 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
                 qr_width = qr_width_from_bytes(bytes);
                 if (qr_width == 0)
                     break;
-                width = m_helper.PixelsFromInchesX(hDC, qr_width * QR_DOT_SIZE);
-                height = m_helper.PixelsFromInchesY(hDC, qr_width * QR_DOT_SIZE);
+                width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
+                height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
                 cx = LONG(width);
                 cy = LONG(height);
             }
@@ -1337,6 +1342,88 @@ BOOL MBlakerApp::CreateTempDir(std::wstring& full_path)
     }
 
     return FALSE;
+}
+
+void MBlakerApp::DoResetSettings(BLAKER_SETTINGS& settings)
+{
+    settings.eDotSize = 0.02;   // 0.02 inch
+}
+
+BOOL MBlakerApp::DoLoadSettings(BLAKER_SETTINGS& settings)
+{
+    DoResetSettings(settings);
+
+    HKEY hSoftware = NULL;
+    ::RegOpenKeyExW(HKEY_CURRENT_USER, L"Software", 0, KEY_READ, &hSoftware);
+    if (!hSoftware)
+        return FALSE;
+
+    WCHAR szText[300];
+    DWORD cb;
+
+    HKEY hCompany = NULL;
+    ::RegOpenKeyExW(hSoftware, L"Katayama Hirofumi MZ", 0, KEY_READ, &hCompany);
+    if (hCompany)
+    {
+        HKEY hApp = NULL;
+        ::RegOpenKeyExW(hCompany, L"BLAKER", 0, KEY_READ, &hApp);
+        if (hApp)
+        {
+            // eDotSize
+            cb = sizeof(szText);
+            if (::RegQueryValueExW(hApp, L"eDotSize", NULL, NULL,
+                                   LPBYTE(szText), &cb) == ERROR_SUCCESS)
+            {
+                WCHAR *endptr;
+                double eValue = wcstod(szText, &endptr);
+                if (*endptr == 0 && (float)eValue > 0)
+                {
+                    settings.eDotSize = (float)eValue;
+                }
+            }
+
+            ::RegCloseKey(hApp);
+        }
+        ::RegCloseKey(hCompany);
+    }
+    ::RegCloseKey(hSoftware);
+}
+
+BOOL MBlakerApp::DoSaveSettings(const BLAKER_SETTINGS& settings)
+{
+    HKEY hSoftware = NULL;
+    ::RegCreateKeyExW(HKEY_CURRENT_USER, L"Software", 0, NULL, 0, KEY_ALL_ACCESS,
+                      NULL, &hSoftware, NULL);
+    if (!hSoftware)
+        return FALSE;
+
+    BOOL bSaved = FALSE;
+    WCHAR szText[300];
+
+    HKEY hCompany = NULL;
+    ::RegCreateKeyExW(hSoftware, L"Katayama Hirofumi MZ", 0, NULL, 0, KEY_ALL_ACCESS,
+                      NULL, &hCompany, NULL);
+    if (hCompany)
+    {
+        HKEY hApp = NULL;
+        ::RegCreateKeyExW(hSoftware, L"BLAKER", 0, NULL, 0, KEY_ALL_ACCESS,
+                          NULL, &hApp, NULL);
+        if (hApp)
+        {
+            // eDotSize
+            StringCbPrintfW(szText, sizeof(szText), L"%f", settings.eDotSize);
+            DWORD cb = (lstrlenW(szText) + 1) * sizeof(WCHAR);
+            ::RegSetValueExW(hApp, L"eDotSize", 0, REG_SZ, (LPBYTE)szText, cb);
+
+            bSaved = TRUE;
+
+            ::RegCloseKey(hApp);
+        }
+        ::RegCloseKey(hCompany);
+    }
+    ::RegCloseKey(hSoftware);
+
+    return bSaved;
 }
 
 void MBlakerApp::OnActivate(HWND hwnd, UINT state, HWND hwndActDeact, BOOL fMinimized)
@@ -1923,7 +2010,7 @@ quit:
             float space_x = m_helper.InchesFromPixelsX(hDC, cxSpace);
             float space_y = m_helper.InchesFromPixelsY(hDC, cySpace);
             float space = std::min(space_x, space_y);
-            bytes = qr_best_bytes_from_space(space, nMaxQRData);
+            bytes = qr_best_bytes_from_space(space, nMaxQRData, m_settings.eDotSize);
 
             for (size_t i = 0; i < bin.size(); i += bytes)
             {
@@ -2117,15 +2204,15 @@ quit:
                             bytes = nMaxQRData;
 
                         int qr_width = qr_width_from_bytes(bytes);
-                        INT width = m_helper.PixelsFromInchesX(hDC, qr_width * QR_DOT_SIZE);
-                        INT height = m_helper.PixelsFromInchesY(hDC, qr_width * QR_DOT_SIZE);
+                        INT width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
+                        INT height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
                         cx = LONG(width);
                         cy = LONG(height);
                         if (qr_width == 0 || bytes <= nMeTaLen)
                             break;
 
-                        while (m_helper.InchesFromPixelsX(hDC, cx) / qr_width < QR_DOT_SIZE &&
-                               m_helper.InchesFromPixelsY(hDC, cy) / qr_width < QR_DOT_SIZE &&
+                        while (m_helper.InchesFromPixelsX(hDC, cx) / qr_width < m_settings.eDotSize &&
+                               m_helper.InchesFromPixelsY(hDC, cy) / qr_width < m_settings.eDotSize &&
                                (x + cx > rcPrintArea.right || y + cy > rcPrintArea.bottom))
                         {
                             if (bytes <= nMeTaLen)
@@ -2134,8 +2221,8 @@ quit:
                             qr_width = qr_width_from_bytes(bytes);
                             if (qr_width == 0)
                                 break;
-                            width = m_helper.PixelsFromInchesX(hDC, qr_width * QR_DOT_SIZE);
-                            height = m_helper.PixelsFromInchesY(hDC, qr_width * QR_DOT_SIZE);
+                            width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
+                            height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
                             cx = LONG(width);
                             cy = LONG(height);
                         }
@@ -2234,7 +2321,6 @@ INT APIENTRY WinMain(
         ::AVIFileExit();
         ::OleUninitialize();
     }
-
 
 #if (WINVER >= 0x0500)
     HANDLE hProcess = GetCurrentProcess();

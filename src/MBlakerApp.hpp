@@ -29,6 +29,11 @@ struct PROGRESS_INFO
     }
 };
 
+struct BLAKER_SETTINGS
+{
+    float eDotSize = 0.02;     // 0.02 inch
+};
+
 class MBlakerApp : public MWindowBase
 {
 public:
@@ -68,6 +73,10 @@ public:
                        SIZE sizImage, BOOL bTest);
     BOOL DoDestroyImages(std::vector<HBITMAP>& bitmaps);
 
+    void DoResetSettings(BLAKER_SETTINGS& settings);
+    BOOL DoLoadSettings(BLAKER_SETTINGS& settings);
+    BOOL DoSaveSettings(const BLAKER_SETTINGS& settings);
+
     virtual LRESULT CALLBACK
     WindowProcDx(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
@@ -105,6 +114,7 @@ protected:
     Renderer    m_renderer;
     std::vector<std::wstring>   m_temp_dirs;
     MPrintHelperEx              m_helper;
+    BLAKER_SETTINGS             m_settings;
 
     BOOL OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);
     void OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify);
