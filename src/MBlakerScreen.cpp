@@ -188,9 +188,10 @@ void MBlakerScreen::OnTimer(HWND hwnd, UINT id)
         OnCountDown(hwnd);
         break;
     case TIMER_3:
+        ::KillTimer(hwnd, TIMER_3);
         m_stc2.SetBitmap(m_hbmFinish);
         SetDlgItemTextW(m_screen_image_dialog, stc3, NULL);
-        ::KillTimer(hwnd, TIMER_3);
+        SetFocus(GetDlgItem(m_screen_image_dialog, IDCLOSE));
         break;
     }
 }

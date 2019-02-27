@@ -1426,7 +1426,7 @@ BOOL MBlakerApp::DoSaveSettings(const BLAKER_SETTINGS& settings)
     if (hCompany)
     {
         HKEY hApp = NULL;
-        ::RegCreateKeyExW(hSoftware, s_szApp, 0, NULL, 0, KEY_ALL_ACCESS,
+        ::RegCreateKeyExW(hCompany, s_szApp, 0, NULL, 0, KEY_ALL_ACCESS,
                           NULL, &hApp, NULL);
         if (hApp)
         {
