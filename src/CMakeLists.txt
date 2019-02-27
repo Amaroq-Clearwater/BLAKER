@@ -6,6 +6,7 @@
 include_directories(
     .
     ../DeleteDirectory
+    ../SetDlgItemDouble
     ../base64
     ../comp_decomp
     ../fp_wrap

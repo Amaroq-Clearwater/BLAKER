@@ -7,7 +7,7 @@ struct BLAKER_SETTINGS
 
     void reset()
     {
-        eDotSize = 0.015;   // 0.015 inch
+        eDotSize = 0.018;   // 0.018 inch
     }
 };
 

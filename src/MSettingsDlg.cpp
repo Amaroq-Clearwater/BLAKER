@@ -1,5 +1,6 @@
 #include "MSettingsDlg.hpp"
 #include <strsafe.h>
+#include "SetDlgItemDouble.h"
 #include "resource.h"
 
 MSettingsDlg::MSettingsDlg(BLAKER_SETTINGS& settings)
@@ -13,9 +14,7 @@ MSettingsDlg::~MSettingsDlg()
 
 BOOL MSettingsDlg::OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 {
-    WCHAR szText[64];
-    StringCbPrintfW(szText, sizeof(szText), L"%.3f", m_settings.eDotSize);
-    SetDlgItemTextW(hwnd, edt1, szText);
+    SetDlgItemDouble(hwnd, edt1, m_settings.eDotSize, "%.3f");
 
     CenterWindowDx(hwnd);
     return TRUE;
@@ -23,12 +22,12 @@ BOOL MSettingsDlg::OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 
 void MSettingsDlg::OnOK(HWND hwnd)
 {
-    WCHAR szText[64];
-    GetDlgItemText(hwnd, edt1, szText, ARRAYSIZE(szText));
+    BOOL bTranslated;
+    double eValue;
 
-    WCHAR *endptr;
-    double eValue = wcstod(szText, &endptr);
-    if (*endptr == 0 && (float)eValue > 0)
+    bTranslated = FALSE;
+    eValue = GetDlgItemDouble(hwnd, edt1, &bTranslated);
+    if (bTranslated && eValue > 0)
     {
         m_settings.eDotSize = (float)eValue;
     }
