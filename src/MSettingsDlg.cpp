@@ -15,7 +15,7 @@ MSettingsDlg::~MSettingsDlg()
 BOOL MSettingsDlg::OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 {
     SetDlgItemDouble(hwnd, edt1, m_settings.eDotSize, "%.3f");
-    SetDlgItemDouble(hwnd, edt3, m_settings.eMovieDelay, "%.3f");
+    SetDlgItemDouble(hwnd, edt2, m_settings.eMovieDelay, "%.3f");
 
     CenterWindowDx(hwnd);
     return TRUE;

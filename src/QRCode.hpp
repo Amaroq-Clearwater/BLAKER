@@ -17,6 +17,7 @@
 #define QR_MARGIN       0.2     // 0.2 inch
 
 int qr_width_from_bytes(size_t bytes);
+size_t qr_next_bytes(size_t bytes);
 
 size_t qr_best_bytes_from_space(float space, size_t bytes, float eDotSize);
 

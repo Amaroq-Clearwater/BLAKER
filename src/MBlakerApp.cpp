@@ -991,14 +991,7 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
             {
                 if (bytes < 17 || bytes <= nMeTaLen)
                     break;
-                if (bytes > 2000)
-                    bytes -= 116;
-                else if (bytes > 1000)
-                    bytes -= 74;
-                else if (bytes > 200)
-                    bytes -= 38;
-                else if (bytes > 15)
-                    bytes -= 15;
+                bytes = qr_next_bytes(bytes);
                 if (bytes < 17 || bytes <= nMeTaLen)
                     break;
                 qr_width = qr_width_from_bytes(bytes);
@@ -2209,14 +2202,7 @@ quit:
                         {
                             if (bytes < 17 || bytes <= nMeTaLen)
                                 break;
-                            if (bytes > 2000)
-                                bytes -= 116;
-                            else if (bytes > 1000)
-                                bytes -= 74;
-                            else if (bytes > 200)
-                                bytes -= 38;
-                            else if (bytes > 15)
-                                bytes -= 15;
+                            bytes = qr_next_bytes(bytes);
                             if (bytes < 17 || bytes <= nMeTaLen)
                                 break;
                             qr_width = qr_width_from_bytes(bytes);

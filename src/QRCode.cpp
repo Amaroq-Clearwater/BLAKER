@@ -1,5 +1,18 @@
 #include "QRCode.hpp"
 
+size_t qr_next_bytes(size_t bytes)
+{
+    if (bytes > 2000)
+        bytes -= 116;
+    else if (bytes > 1000)
+        bytes -= 74;
+    else if (bytes > 200)
+        bytes -= 38;
+    else if (bytes > 15)
+        bytes -= 15;
+    return bytes;
+}
+
 int qr_width_from_bytes(size_t bytes)
 {
     struct SIZE_INFO
