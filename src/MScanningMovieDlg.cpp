@@ -67,7 +67,6 @@ static unsigned __stdcall the_thread_function(void *arg)
     KillTimer(*info->dialog, 999);
     ::PostMessage(*info->dialog, WM_COMMAND, IDOK, 0);
 
-    info->dialog->m_info = NULL;
     delete info;
 
     _endthreadex(0);
