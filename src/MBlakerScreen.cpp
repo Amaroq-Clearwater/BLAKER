@@ -1,15 +1,15 @@
 #include "resource.h"
 #include "MBlakerScreen.hpp"
+#include "Settings.hpp"
 
 #define ONE_SECOND 1000
-#define QR_INTERVAL 540
 
 #define TIMER_1 777
 #define TIMER_2 888
 #define TIMER_3 999
 
-MBlakerScreen::MBlakerScreen(Renderer& renderer, BOOL bMovie)
-    : m_stc2(renderer)
+MBlakerScreen::MBlakerScreen(BLAKER_SETTINGS& settings, Renderer& renderer, BOOL bMovie)
+    : m_settings(settings), m_stc2(renderer)
 {
     m_hIcon = LoadIconDx(1);
     m_hIconSm = LoadSmallIconDx(1);
@@ -167,7 +167,7 @@ void MBlakerScreen::OnCountDown(HWND hwnd)
     {
         m_iPage = 0;
         ::KillTimer(hwnd, TIMER_2);
-        ::SetTimer(hwnd, TIMER_1, QR_INTERVAL, NULL);
+        ::SetTimer(hwnd, TIMER_1, m_settings.eMovieDelay * 1000, NULL);
     }
 }
 
@@ -181,7 +181,7 @@ void MBlakerScreen::OnTimer(HWND hwnd, UINT id)
         {
             ::KillTimer(hwnd, TIMER_1);
             if (m_bMovie)
-                ::SetTimer(hwnd, TIMER_3, QR_INTERVAL, NULL);
+                ::SetTimer(hwnd, TIMER_3, m_settings.eMovieDelay * 1000, NULL);
         }
         break;
     case TIMER_2:

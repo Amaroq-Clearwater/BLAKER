@@ -1059,7 +1059,7 @@ BOOL MBlakerApp::DoScreenImages(HWND hwnd)
 {
     ::EnableWindow(hwnd, FALSE);
 
-    MBlakerScreen screen(m_renderer, FALSE);
+    MBlakerScreen screen(m_settings, m_renderer, FALSE);
 
     if (!screen.CreateDialogDx(hwnd, IDD_IMAGES_MOVIE))
     {
@@ -1126,7 +1126,7 @@ BOOL MBlakerApp::DoScreenMovie(HWND hwnd)
 {
     ::EnableWindow(hwnd, FALSE);
 
-    MBlakerScreen screen(m_renderer, TRUE);
+    MBlakerScreen screen(m_settings, m_renderer, TRUE);
 
     if (!screen.CreateDialogDx(hwnd, IDD_IMAGES_MOVIE))
     {
@@ -1388,6 +1388,19 @@ BOOL MBlakerApp::DoLoadSettings(BLAKER_SETTINGS& settings)
                 }
             }
 
+            // eMovieDelay
+            cb = sizeof(szText);
+            if (::RegQueryValueExW(hApp, L"eMovieDelay", NULL, NULL,
+                                   LPBYTE(szText), &cb) == ERROR_SUCCESS)
+            {
+                WCHAR *endptr;
+                double eValue = wcstod(szText, &endptr);
+                if (*endptr == 0 && (float)eValue > 0)
+                {
+                    settings.eMovieDelay = (float)eValue;
+                }
+            }
+
             bLoaded = TRUE;
             ::RegCloseKey(hApp);
         }
@@ -1408,6 +1421,7 @@ BOOL MBlakerApp::DoSaveSettings(const BLAKER_SETTINGS& settings)
 
     BOOL bSaved = FALSE;
     WCHAR szText[300];
+    DWORD cb;
 
     HKEY hCompany = NULL;
     ::RegCreateKeyExW(hSoftware, L"Katayama Hirofumi MZ", 0, NULL, 0, KEY_ALL_ACCESS,
@@ -1420,9 +1434,14 @@ BOOL MBlakerApp::DoSaveSettings(const BLAKER_SETTINGS& settings)
         if (hApp)
         {
             // eDotSize
-            StringCbPrintfW(szText, sizeof(szText), L"%f", settings.eDotSize);
-            DWORD cb = (lstrlenW(szText) + 1) * sizeof(WCHAR);
+            StringCbPrintfW(szText, sizeof(szText), L"%g", settings.eDotSize);
+            cb = (lstrlenW(szText) + 1) * sizeof(WCHAR);
             ::RegSetValueExW(hApp, L"eDotSize", 0, REG_SZ, (LPBYTE)szText, cb);
+
+            // eMovieDelay
+            StringCbPrintfW(szText, sizeof(szText), L"%g", settings.eMovieDelay);
+            cb = (lstrlenW(szText) + 1) * sizeof(WCHAR);
+            ::RegSetValueExW(hApp, L"eMovieDelay", 0, REG_SZ, (LPBYTE)szText, cb);
 
             bSaved = TRUE;
 

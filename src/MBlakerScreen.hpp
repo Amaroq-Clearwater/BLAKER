@@ -4,6 +4,7 @@
 #include "MStartScreenDlg.hpp"
 #include "MScreenImageDlg.hpp"
 #include "MSpecialStatic.hpp"
+#include "Settings.hpp"
 #include <vector>
 
 class MBlakerScreen : public MDialogBase
@@ -15,7 +16,7 @@ public:
     BOOL m_bOK;
     BOOL m_bMovie;
 
-    MBlakerScreen(Renderer& renderer, BOOL bMovie);
+    MBlakerScreen(BLAKER_SETTINGS& settings, Renderer& renderer, BOOL bMovie);
     virtual ~MBlakerScreen();
 
     BOOL SetControlDialog(HWND hwnd, MDialogBase& dialog, INT nID);
@@ -40,6 +41,7 @@ public:
 protected:
     HICON m_hIcon;
     HICON m_hIconSm;
+    BLAKER_SETTINGS& m_settings;
     MSpecialStatic m_stc2;
     MScreenImageDlg m_screen_image_dialog;
     INT m_iPage;

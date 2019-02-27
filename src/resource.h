@@ -60,6 +60,8 @@
 #define IDS_BLAKER_PAPERS                   140
 #define IDS_CANTCREATETEMPDIR               141
 #define IDS_RAWQRLIMIT                      142
+#define IDS_CANTSTARTTHREAD                 143
+#define IDS_INVALID_VALUE                   144
 
 #define ID_EXIT                             100
 #define ID_PAGESETUP                        101

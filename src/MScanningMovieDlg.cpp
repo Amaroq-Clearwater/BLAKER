@@ -84,7 +84,7 @@ BOOL MScanningMovieDlg::JustDoIt(HWND hwnd)
     }
     else
     {
-        ErrorBoxDx(L"_beginthreadex");
+        ErrorBoxDx(IDS_CANTSTARTTHREAD);
         return FALSE;
     }
 }
