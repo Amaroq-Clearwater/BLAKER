@@ -984,13 +984,13 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
             if (qr_width == 0 || bytes <= nMeTaLen)
                 break;
 
-            while (m_helper.InchesFromPixelsX(hDC, cx) / qr_width < m_settings.eDotSize &&
-                   m_helper.InchesFromPixelsY(hDC, cy) / qr_width < m_settings.eDotSize &&
-                   (cx > sizImage.cx || cy > sizImage.cy))
+            while (cx > sizImage.cx || cy > sizImage.cy ||
+                   m_helper.InchesFromPixelsX(hDC, cx) / qr_width < m_settings.eDotSize ||
+                   m_helper.InchesFromPixelsY(hDC, cy) / qr_width < m_settings.eDotSize)
             {
                 if (bytes <= nMeTaLen)
                     break;
-                bytes -= 200;
+                bytes -= 80;
                 qr_width = qr_width_from_bytes(bytes);
                 if (qr_width == 0)
                     break;
@@ -2209,32 +2209,44 @@ quit:
                         cx = LONG(width);
                         cy = LONG(height);
                         if (qr_width == 0 || bytes <= nMeTaLen)
+                        {
                             break;
+                        }
 
-                        while (m_helper.InchesFromPixelsX(hDC, cx) / qr_width < m_settings.eDotSize &&
-                               m_helper.InchesFromPixelsY(hDC, cy) / qr_width < m_settings.eDotSize &&
-                               (x + cx > rcPrintArea.right || y + cy > rcPrintArea.bottom))
+                        while (x + cx > rcPrintArea.right || y + cy > rcPrintArea.bottom ||
+                               m_helper.InchesFromPixelsX(hDC, cx) / qr_width < m_settings.eDotSize ||
+                               m_helper.InchesFromPixelsY(hDC, cy) / qr_width < m_settings.eDotSize)
                         {
                             if (bytes <= nMeTaLen)
+                            {
                                 break;
-                            bytes -= 200;
+                            }
+                            bytes -= 80;
                             qr_width = qr_width_from_bytes(bytes);
                             if (qr_width == 0)
+                            {
                                 break;
+                            }
                             width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
                             height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
                             cx = LONG(width);
                             cy = LONG(height);
                         }
                         if (qr_width == 0 || bytes <= nMeTaLen)
+                        {
                             break;
+                        }
 
                         cxColumn = std::max(cx, cxColumn);
 
                         if (x + cx > rcPrintArea.right)
+                        {
                             break;
+                        }
                         if (y + cy > rcPrintArea.bottom)
+                        {
                             break;
+                        }
 
                         INT cxQR, cyQR;
                         std::string str(data, bytes);
