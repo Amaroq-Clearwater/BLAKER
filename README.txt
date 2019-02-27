@@ -29,3 +29,12 @@ BLAKER is a Windows application for transferring files via papers, images, or mo
 - Up to 99 pages can be printed.
 - The amount of printable data after compression is 256 KiB.
 - The amount of screenable data after compression is 512 KiB.
+
+## History
+
+- 2019.02.27 ver.0.7.0
+    * First release.
+- 2019.XX.YY ver.0.7.1
+    * Improve data density.
+    * Add menu item "Open ReadMe" to [Help] menu.
+    * Add settings.
