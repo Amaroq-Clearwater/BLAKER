@@ -12,7 +12,7 @@ if(COMMAND cmake_policy)
 endif(COMMAND cmake_policy)
 
 # project name and language
-project(BLAKER VERSION 0.7.0)
+project(BLAKER VERSION 0.7.1)
 
 # check build type
 if (NOT CMAKE_BUILD_TYPE)
