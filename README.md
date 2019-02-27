@@ -39,6 +39,6 @@ If you are using MSYS2, please install them by `pacman`. Otherwise, you have to 
 ```bash
 $ git clone --recursive https://github.com/katahiromz/BLAKER.git
 $ cd BLAKER
-$ cmake -G "MSYS Makefiles"
+$ cmake -G "MSYS Makefiles" .
 $ make -j2
 ```
