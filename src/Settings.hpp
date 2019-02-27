@@ -3,7 +3,12 @@
 
 struct BLAKER_SETTINGS
 {
-    float eDotSize = 0.02;     // 0.02 inch
+    float eDotSize;
+
+    void reset()
+    {
+        eDotSize = 0.015;   // 0.015 inch
+    }
 };
 
 #endif  // ndef SETTINGS_HPP_

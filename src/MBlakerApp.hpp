@@ -69,7 +69,6 @@ public:
                        SIZE sizImage, BOOL bTest);
     BOOL DoDestroyImages(std::vector<HBITMAP>& bitmaps);
 
-    void DoResetSettings(BLAKER_SETTINGS& settings);
     BOOL DoLoadSettings(BLAKER_SETTINGS& settings);
     BOOL DoSaveSettings(const BLAKER_SETTINGS& settings);
 

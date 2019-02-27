@@ -14,7 +14,7 @@ MSettingsDlg::~MSettingsDlg()
 BOOL MSettingsDlg::OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 {
     WCHAR szText[64];
-    StringCbPrintfW(szText, sizeof(szText), L"%.2f", m_settings.eDotSize);
+    StringCbPrintfW(szText, sizeof(szText), L"%.3f", m_settings.eDotSize);
     SetDlgItemTextW(hwnd, edt1, szText);
 
     CenterWindowDx(hwnd);
@@ -38,7 +38,7 @@ void MSettingsDlg::OnOK(HWND hwnd)
 
 void MSettingsDlg::OnPsh1(HWND hwnd)
 {
-    m_settings.eDotSize = 0.02;   // 0.02 inch
+    m_settings.reset();
     EndDialog(hwnd, IDOK);
 }
 

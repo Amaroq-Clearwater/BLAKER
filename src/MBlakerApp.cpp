@@ -989,9 +989,18 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
                    m_helper.InchesFromPixelsX(hDC, cx) / qr_width < m_settings.eDotSize ||
                    m_helper.InchesFromPixelsY(hDC, cy) / qr_width < m_settings.eDotSize)
             {
-                if (bytes <= nMeTaLen)
+                if (bytes < 17 || bytes <= nMeTaLen)
                     break;
-                bytes -= 80;
+                if (bytes > 2000)
+                    bytes -= 116;
+                else if (bytes > 1000)
+                    bytes -= 74;
+                else if (bytes > 200)
+                    bytes -= 38;
+                else if (bytes > 15)
+                    bytes -= 15;
+                if (bytes < 17 || bytes <= nMeTaLen)
+                    break;
                 qr_width = qr_width_from_bytes(bytes);
                 if (qr_width == 0)
                     break;
@@ -1345,14 +1354,9 @@ BOOL MBlakerApp::CreateTempDir(std::wstring& full_path)
     return FALSE;
 }
 
-void MBlakerApp::DoResetSettings(BLAKER_SETTINGS& settings)
-{
-    settings.eDotSize = 0.02;   // 0.02 inch
-}
-
 BOOL MBlakerApp::DoLoadSettings(BLAKER_SETTINGS& settings)
 {
-    DoResetSettings(settings);
+    settings.reset();
 
     HKEY hSoftware = NULL;
     ::RegOpenKeyExW(HKEY_CURRENT_USER, L"Software", 0, KEY_READ, &hSoftware);
@@ -1850,7 +1854,7 @@ BOOL MBlakerApp::DoPrintPages(HWND hwnd, HDC hDC, LPCWSTR pszDocName)
     INT cyChar = nLogPixelY * 15 / 100;    // 0.15 inch     // 3
 
     size_t nMaxQRData = QR_MAX_BYTES;
-    INT cyHeader = cyChar * 3;
+    INT cyHeader = cyChar * 1;
     INT nColumns = sizPrintArea.cx / cxChar;
     INT nRows = (sizPrintArea.cy - cyHeader) / cyChar;
     INT nCells = nColumns * nRows;
@@ -1920,41 +1924,24 @@ BOOL MBlakerApp::DoPrintPages(HWND hwnd, HDC hDC, LPCWSTR pszDocName)
 
                 if (pszDocName)
                 {
-                    m_renderer.drawChar(hDC, 0x02, x + 0 * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + 1 * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + 0 * cxChar, y + cyChar, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x02, x + 1 * cxChar, y + cyChar, cxChar, cyChar);
-
-                    m_renderer.drawChar(hDC, 0x02, x + (nColumns - 2) * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + (nColumns - 1) * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + (nColumns - 2) * cxChar, y + cyChar, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x02, x + (nColumns - 1) * cxChar, y + cyChar, cxChar, cyChar);
+                    if (m_cPages >= 10)
+                    {
+                        StringCbPrintfA(szText, sizeof(szText),
+                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%02u/%02u \x02",
+                            st.wYear, st.wMonth, st.wDay,
+                            st.wHour, st.wMinute, st.wSecond,
+                            iPage + 1, m_cPages);
+                    }
+                    else
+                    {
+                        StringCbPrintfA(szText, sizeof(szText),
+                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%01u/%01u \x02",
+                            st.wYear, st.wMonth, st.wDay,
+                            st.wHour, st.wMinute, st.wSecond,
+                            iPage + 1, m_cPages);
+                    }
+                    m_renderer.drawString(hDC, szText, x, y, cxChar, cyChar);
                 }
-
-                StringCbPrintfA(szText, sizeof(szText),
-                    "%s\x04%04u.%02u.%02u %02u:%02u:%02u",
-                    "BLAKER Papers", st.wYear, st.wMonth, st.wDay,
-                    st.wHour, st.wMinute, st.wSecond);
-
-                if (pszDocName)
-                    m_renderer.drawString(hDC, szText, x + 3 * cxChar, y, cxChar, cyChar);
-                y += cyChar;
-
-                if (m_cPages >= 10)
-                {
-                    StringCbPrintfA(szText, sizeof(szText),
-                        "Page:%02u/%02u\x04%s",
-                        iPage + 1, m_cPages, method_str);
-                }
-                else
-                {
-                    StringCbPrintfA(szText, sizeof(szText),
-                        "Page:%01u/%01u\x04%s",
-                        iPage + 1, m_cPages, method_str);
-                }
-
-                if (pszDocName)
-                    m_renderer.drawString(hDC, szText, x + 3 * cxChar, y, cxChar, cyChar);
                 y += cyChar;
 
                 if (pszDocName)
@@ -2043,41 +2030,24 @@ quit:
 
                 if (pszDocName)
                 {
-                    m_renderer.drawChar(hDC, 0x02, x + 0 * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + 1 * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + 0 * cxChar, y + cyChar, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x02, x + 1 * cxChar, y + cyChar, cxChar, cyChar);
-
-                    m_renderer.drawChar(hDC, 0x02, x + (nColumns - 2) * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + (nColumns - 1) * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + (nColumns - 2) * cxChar, y + cyChar, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x02, x + (nColumns - 1) * cxChar, y + cyChar, cxChar, cyChar);
+                    if (m_cPages >= 10)
+                    {
+                        StringCbPrintfA(szText, sizeof(szText),
+                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%02u/%02u \x02",
+                            st.wYear, st.wMonth, st.wDay,
+                            st.wHour, st.wMinute, st.wSecond,
+                            iPage + 1, m_cPages);
+                    }
+                    else
+                    {
+                        StringCbPrintfA(szText, sizeof(szText),
+                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%01u/%01u \x02",
+                            st.wYear, st.wMonth, st.wDay,
+                            st.wHour, st.wMinute, st.wSecond,
+                            iPage + 1, m_cPages);
+                    }
+                    m_renderer.drawString(hDC, szText, x, y, cxChar, cyChar);
                 }
-
-                StringCbPrintfA(szText, sizeof(szText),
-                    "%s\x04%04u.%02u.%02u %02u:%02u:%02u",
-                    "BLAKER Papers", st.wYear, st.wMonth, st.wDay,
-                    st.wHour, st.wMinute, st.wSecond);
-
-                if (pszDocName)
-                    m_renderer.drawString(hDC, szText, x + 3 * cxChar, y, cxChar, cyChar);
-                y += cyChar;
-
-                if (m_cPages >= 10)
-                {
-                    StringCbPrintfA(szText, sizeof(szText),
-                        "Page:%02u/%02u\x04%s",
-                        iPage + 1, m_cPages, method_str);
-                }
-                else
-                {
-                    StringCbPrintfA(szText, sizeof(szText),
-                        "Page:%01u/%01u\x04%s",
-                        iPage + 1, m_cPages, method_str);
-                }
-
-                if (pszDocName)
-                    m_renderer.drawString(hDC, szText, x + 3 * cxChar, y, cxChar, cyChar);
                 y += cyChar;
 
                 if (pszDocName)
@@ -2161,41 +2131,24 @@ quit:
 
                 if (pszDocName)
                 {
-                    m_renderer.drawChar(hDC, 0x02, x + 0 * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + 1 * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + 0 * cxChar, y + cyChar, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x02, x + 1 * cxChar, y + cyChar, cxChar, cyChar);
-
-                    m_renderer.drawChar(hDC, 0x02, x + (nColumns - 2) * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + (nColumns - 1) * cxChar, y, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x7F, x + (nColumns - 2) * cxChar, y + cyChar, cxChar, cyChar);
-                    m_renderer.drawChar(hDC, 0x02, x + (nColumns - 1) * cxChar, y + cyChar, cxChar, cyChar);
+                    if (m_cPages >= 10)
+                    {
+                        StringCbPrintfA(szText, sizeof(szText),
+                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%02u/%02u \x02",
+                            st.wYear, st.wMonth, st.wDay,
+                            st.wHour, st.wMinute, st.wSecond,
+                            iPage + 1, m_cPages);
+                    }
+                    else
+                    {
+                        StringCbPrintfA(szText, sizeof(szText),
+                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%01u/%01u \x02",
+                            st.wYear, st.wMonth, st.wDay,
+                            st.wHour, st.wMinute, st.wSecond,
+                            iPage + 1, m_cPages);
+                    }
+                    m_renderer.drawString(hDC, szText, x, y, cxChar, cyChar);
                 }
-
-                StringCbPrintfA(szText, sizeof(szText),
-                    "%s\x04%04u.%02u.%02u %02u:%02u:%02u",
-                    "BLAKER Papers", st.wYear, st.wMonth, st.wDay,
-                    st.wHour, st.wMinute, st.wSecond);
-
-                if (pszDocName)
-                    m_renderer.drawString(hDC, szText, x + 3 * cxChar, y, cxChar, cyChar);
-                y += cyChar;
-
-                if (m_cPages >= 10)
-                {
-                    StringCbPrintfA(szText, sizeof(szText),
-                        "Page:%02u/%02u\x04%s",
-                        iPage + 1, m_cPages, method_str);
-                }
-                else
-                {
-                    StringCbPrintfA(szText, sizeof(szText),
-                        "Page:%01u/%01u\x04%s",
-                        iPage + 1, m_cPages, method_str);
-                }
-
-                if (pszDocName)
-                    m_renderer.drawString(hDC, szText, x + 3 * cxChar, y, cxChar, cyChar);
                 y += cyChar;
 
                 INT cxColumn = 0;
@@ -2231,11 +2184,18 @@ quit:
                                m_helper.InchesFromPixelsX(hDC, cx) / qr_width < m_settings.eDotSize ||
                                m_helper.InchesFromPixelsY(hDC, cy) / qr_width < m_settings.eDotSize)
                         {
-                            if (bytes <= nMeTaLen)
-                            {
+                            if (bytes < 17 || bytes <= nMeTaLen)
                                 break;
-                            }
-                            bytes -= 80;
+                            if (bytes > 2000)
+                                bytes -= 116;
+                            else if (bytes > 1000)
+                                bytes -= 74;
+                            else if (bytes > 200)
+                                bytes -= 38;
+                            else if (bytes > 15)
+                                bytes -= 15;
+                            if (bytes < 17 || bytes <= nMeTaLen)
+                                break;
                             qr_width = qr_width_from_bytes(bytes);
                             if (qr_width == 0)
                             {
