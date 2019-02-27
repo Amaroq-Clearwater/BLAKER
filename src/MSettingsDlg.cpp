@@ -1,7 +1,7 @@
 #include "MSettingsDlg.hpp"
-#include <strsafe.h>
 #include "SetDlgItemDouble.h"
 #include "resource.h"
+#include <strsafe.h>
 
 MSettingsDlg::MSettingsDlg(BLAKER_SETTINGS& settings)
     : MDialogBase(IDD_SETTINGS), m_settings(settings)
