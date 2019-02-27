@@ -1354,12 +1354,16 @@ BOOL MBlakerApp::CreateTempDir(std::wstring& full_path)
     return FALSE;
 }
 
+static const WCHAR s_szSoftware[] = L"Software";
+static const WCHAR s_szCompany[] = L"Katayama Hirofumi MZ";
+static const WCHAR s_szApp[] = L"BLAKER";
+
 BOOL MBlakerApp::DoLoadSettings(BLAKER_SETTINGS& settings)
 {
     settings.reset();
 
     HKEY hSoftware = NULL;
-    ::RegOpenKeyExW(HKEY_CURRENT_USER, L"Software", 0, KEY_READ, &hSoftware);
+    ::RegOpenKeyExW(HKEY_CURRENT_USER, s_szSoftware, 0, KEY_READ, &hSoftware);
     if (!hSoftware)
         return FALSE;
 
@@ -1368,11 +1372,11 @@ BOOL MBlakerApp::DoLoadSettings(BLAKER_SETTINGS& settings)
     BOOL bLoaded = FALSE;
 
     HKEY hCompany = NULL;
-    ::RegOpenKeyExW(hSoftware, L"Katayama Hirofumi MZ", 0, KEY_READ, &hCompany);
+    ::RegOpenKeyExW(hSoftware, s_szCompany, 0, KEY_READ, &hCompany);
     if (hCompany)
     {
         HKEY hApp = NULL;
-        ::RegOpenKeyExW(hCompany, L"BLAKER", 0, KEY_READ, &hApp);
+        ::RegOpenKeyExW(hCompany, s_szApp, 0, KEY_READ, &hApp);
         if (hApp)
         {
             // eDotSize
@@ -1414,7 +1418,7 @@ BOOL MBlakerApp::DoLoadSettings(BLAKER_SETTINGS& settings)
 BOOL MBlakerApp::DoSaveSettings(const BLAKER_SETTINGS& settings)
 {
     HKEY hSoftware = NULL;
-    ::RegCreateKeyExW(HKEY_CURRENT_USER, L"Software", 0, NULL, 0, KEY_ALL_ACCESS,
+    ::RegCreateKeyExW(HKEY_CURRENT_USER, s_szSoftware, 0, NULL, 0, KEY_ALL_ACCESS,
                       NULL, &hSoftware, NULL);
     if (!hSoftware)
         return FALSE;
@@ -1424,12 +1428,12 @@ BOOL MBlakerApp::DoSaveSettings(const BLAKER_SETTINGS& settings)
     DWORD cb;
 
     HKEY hCompany = NULL;
-    ::RegCreateKeyExW(hSoftware, L"Katayama Hirofumi MZ", 0, NULL, 0, KEY_ALL_ACCESS,
+    ::RegCreateKeyExW(hSoftware, s_szCompany, 0, NULL, 0, KEY_ALL_ACCESS,
                       NULL, &hCompany, NULL);
     if (hCompany)
     {
         HKEY hApp = NULL;
-        ::RegCreateKeyExW(hSoftware, L"BLAKER", 0, NULL, 0, KEY_ALL_ACCESS,
+        ::RegCreateKeyExW(hSoftware, s_szApp, 0, NULL, 0, KEY_ALL_ACCESS,
                           NULL, &hApp, NULL);
         if (hApp)
         {
