@@ -25,3 +25,6 @@
 [submodule "fp_wrap"]
 	path = fp_wrap
 	url = https://github.com/katahiromz/fp_wrap.git
+[submodule "SetDlgItemDouble"]
+	path = SetDlgItemDouble
+	url = https://github.com/katahiromz/SetDlgItemDouble.git
