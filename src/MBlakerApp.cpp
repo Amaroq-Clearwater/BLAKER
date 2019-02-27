@@ -1369,6 +1369,26 @@ void MBlakerApp::OnAbout(HWND hwnd)
     dialog.DialogBoxDx(hwnd);
 }
 
+void MBlakerApp::OnOpenReadMe(HWND hwnd)
+{
+    TCHAR szPath[MAX_PATH];
+    GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
+    LPTCH pch = PathFindFileName(szPath);
+    *pch = 0;
+    PathAppend(szPath, TEXT("ReadMe.txt"));
+    if (!PathFileExists(szPath))
+    {
+        *pch = 0;
+        PathAppend(szPath, TEXT("..\\ReadMe.txt"));
+    }
+    if (!PathFileExists(szPath))
+    {
+        *pch = 0;
+        PathAppend(szPath, TEXT("..\\..\\ReadMe.txt"));
+    }
+    ShellExecute(hwnd, NULL, szPath, NULL, NULL, 0);
+}
+
 void MBlakerApp::OnSaveSelection(HWND hwnd)
 {
     if (m_bins.empty())
@@ -1592,6 +1612,9 @@ void MBlakerApp::OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
         break;
     case ID_ABOUT:
         OnAbout(hwnd);
+        break;
+    case ID_OPEN_README:
+        OnOpenReadMe(hwnd);
         break;
     }
 

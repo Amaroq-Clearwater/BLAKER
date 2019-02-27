@@ -129,6 +129,7 @@ protected:
     void OnRClick(HWND hwnd);
     void OnSaveSelection(HWND hwnd);
     void OnAbout(HWND hwnd);
+    void OnOpenReadMe(HWND hwnd);
 
     struct QR_CALLBACK_DATA
     {

@@ -42,6 +42,8 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
     }
     POPUP "ヘルプ(&H)"
     {
+        MENUITEM "&README.txtを開く", ID_OPEN_README
+        MENUITEM SEPARATOR
         MENUITEM "バージョン情報(&A)...", ID_ABOUT
     }
 }

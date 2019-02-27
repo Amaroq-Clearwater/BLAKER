@@ -79,12 +79,13 @@
 #define ID_DELETE                           116
 #define ID_SAVE_SELECTION                   117
 #define ID_ABOUT                            118
+#define ID_OPEN_README                      119
 
 #ifdef APSTUDIO_INVOKED
     #ifndef APSTUDIO_READONLY_SYMBOLS
         #define _APS_NO_MFC                 1
         #define _APS_NEXT_RESOURCE_VALUE    100
-        #define _APS_NEXT_COMMAND_VALUE     119
+        #define _APS_NEXT_COMMAND_VALUE     120
         #define _APS_NEXT_CONTROL_VALUE     1000
         #define _APS_NEXT_SYMED_VALUE       300
     #endif
