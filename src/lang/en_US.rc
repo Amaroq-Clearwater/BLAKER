@@ -187,7 +187,7 @@ STRINGTABLE
     IDS_CANTLOADPDFLIB, "Unable to load pdfium.dll ."
     IDS_EMPTY_DATA, "Data is empty."
     IDS_NODATA, "(No data)"
-    IDS_TOOLARGEFILE, "Too large file."
+    IDS_TOOLARGEDATA, "Too large data."
     IDS_PRINTERR, "Print Error!"
     IDS_NOIMAGES, "There is no image."
     IDS_OPEN_FILE, "Open File"

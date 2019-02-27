@@ -187,7 +187,7 @@ STRINGTABLE
     IDS_CANTLOADPDFLIB, "pdfium.dllを読み込めません。"
     IDS_EMPTY_DATA, "データは空っぽです。"
     IDS_NODATA, "(データはありません)"
-    IDS_TOOLARGEFILE, "データが大きすぎるファイルです。"
+    IDS_TOOLARGEDATA, "大きすぎるデータです。"
     IDS_PRINTERR, "印刷エラーです。"
     IDS_NOIMAGES, "画像ファイルがありません。"
     IDS_OPEN_FILE, "ファイルを開く"

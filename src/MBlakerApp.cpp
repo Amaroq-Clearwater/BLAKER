@@ -930,7 +930,7 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
 
     if (tbz.size() > MAX_SCREENABLE_BYTES)
     {
-        ErrorBoxDx(IDS_TOOLARGEFILE);
+        ErrorBoxDx(IDS_TOOLARGEDATA);
         return 0;
     }
 
@@ -1778,7 +1778,7 @@ BOOL MBlakerApp::DoPrintPages(HWND hwnd, HDC hDC, LPCWSTR pszDocName)
             size_t total_size = encoded.size();
             if (total_size > MAX_PRINTABLE_BYTES)
             {
-                ErrorBoxDx(IDS_TOOLARGEFILE);
+                ErrorBoxDx(IDS_TOOLARGEDATA);
                 return 0;
             }
             size_t count = total_size;
@@ -1889,7 +1889,7 @@ quit:
             size_t total_size = bin.size();
             if (total_size > MAX_PRINTABLE_BYTES)
             {
-                ErrorBoxDx(IDS_TOOLARGEFILE);
+                ErrorBoxDx(IDS_TOOLARGEDATA);
                 return 0;
             }
             size_t count = total_size;
@@ -2017,7 +2017,7 @@ quit:
             size_t total_size = bin.size();
             if (total_size > MAX_PRINTABLE_BYTES)
             {
-                ErrorBoxDx(IDS_TOOLARGEFILE);
+                ErrorBoxDx(IDS_TOOLARGEDATA);
                 return FALSE;
             }
             size_t count = total_size;

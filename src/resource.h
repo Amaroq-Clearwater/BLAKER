@@ -22,7 +22,7 @@
 #define IDS_CANTLOADPDFLIB                  103
 #define IDS_EMPTY_DATA                      104
 #define IDS_NODATA                          105
-#define IDS_TOOLARGEFILE                    106
+#define IDS_TOOLARGEDATA                    106
 #define IDS_PRINTERR                        107
 #define IDS_NOIMAGES                        108
 #define IDS_OPEN_FILE                       109
