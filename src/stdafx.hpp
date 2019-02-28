@@ -24,6 +24,8 @@
 #include "resource.h"
 
 #define MAX_PAGES       99
+#define MAX_PARTS       999
+
 #define MAX_PRINTABLE_BYTES     (256 * 1024)    // 256KiB
 #define MAX_SCREENABLE_BYTES    (512 * 1024)    // 512KiB
 #define SCAN_DPI 150

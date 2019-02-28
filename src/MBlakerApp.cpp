@@ -951,23 +951,25 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
     StringCbPrintfA(szMeTa, sizeof(szMeTa), "MeTa>XXX>YYY>%s|", hash.c_str());
     INT nMeTaLen = lstrlenA(szMeTa);
     nMaxQRData -= strlen(szMeTa);
-    std::string binary;
     const char *data = &tbz[0];
     size_t total_size = tbz.size();
+    if (total_size > MAX_PRINTABLE_BYTES)
+    {
+        ErrorBoxDx(IDS_TOOLARGEDATA);
+        return FALSE;
+    }
     size_t count = total_size;
     INT iPart = 1;
 
     INT x, y, cx, cy;
-    if (HDC hDC = CreateCompatibleDC(NULL))
+    if (HDC hDC = ::CreateCompatibleDC(NULL))
     {
         for (size_t i = 0; i < tbz.size();)
         {
             x = y = 0;
-            cx = sizImage.cx;
-            cy = sizImage.cy;
 
-            INT cxSpace = cx;
-            INT cySpace = cy;
+            INT cxSpace = sizImage.cx;
+            INT cySpace = sizImage.cy;
             float space_x = m_helper.InchesFromPixelsX(hDC, cxSpace);
             float space_y = m_helper.InchesFromPixelsY(hDC, cySpace);
             float space = std::min(space_x, space_y);
@@ -976,74 +978,77 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
                 bytes = tbz.size() - i;
             else
                 bytes = nMaxQRData;
+            if (bytes == 0)
+                break;
 
             int qr_width = qr_width_from_bytes(bytes);
             INT width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
             INT height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
             cx = LONG(width);
             cy = LONG(height);
-            if (qr_width == 0 || bytes <= nMeTaLen)
-                break;
 
-            while (cx > sizImage.cx || cy > sizImage.cy ||
-                   m_helper.InchesFromPixelsX(hDC, cx) / qr_width < m_settings.eDotSize ||
-                   m_helper.InchesFromPixelsY(hDC, cy) / qr_width < m_settings.eDotSize)
+            INT count = 0;
+            while (x + cx > sizImage.cx || y + cy > sizImage.cy ||
+                   cx / qr_width < m_settings.eDotSize ||
+                   cy / qr_width < m_settings.eDotSize)
             {
-                if (bytes < 17 || bytes <= nMeTaLen)
+                if (bytes == QR_MIN_BYTES)
                     break;
                 bytes = qr_next_bytes(bytes);
-                if (bytes < 17 || bytes <= nMeTaLen)
-                    break;
                 qr_width = qr_width_from_bytes(bytes);
-                if (qr_width == 0)
-                    break;
                 width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
                 height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
                 cx = LONG(width);
                 cy = LONG(height);
+                if (count++ >= 128)
+                {
+                    break;
+                }
             }
-            if (qr_width == 0 || bytes < 17 || bytes <= nMeTaLen)
-                break;
 
+            if (tbz.size() - i < bytes)
+                bytes = tbz.size() - i;
+
+            INT cxQR, cyQR;
             std::string str(data, bytes);
             StringCbPrintfA(szMeTa, sizeof(szMeTa), "MeTa>%03u>%03u>%s|",
                             iPart, m_cParts, hash.c_str());
             str.insert(0, std::string(szMeTa));
 
-            if (bTest)
+            if (HBITMAP hbm = qr_create_bitmap(hwnd, &str[0], str.size(), cxQR, cyQR))
             {
-                if (HBITMAP hbm = qr_create_mono_bitmap(1, 1))
+                if (HDC hdcMem = CreateCompatibleDC(NULL))
                 {
-                    bitmaps.push_back(hbm);
+                    HGDIOBJ hbmOld = SelectObject(hdcMem, hbm);
+                    {
+                        StretchBlt(hDC, x, y, cx, cy,
+                                   hdcMem, 0, 0, cxQR, cyQR, SRCCOPY);
+                    }
+                    SelectObject(hdcMem, hbmOld);
+                    DeleteDC(hdcMem);
                 }
-                else
-                {
-                    ErrorBoxDx(IDS_CANTGENQRCODE);
-                    return 0;
-                }
+                bitmaps.push_back(hbm);
             }
             else
             {
-                INT cxQR, cyQR;
-                if (HBITMAP hbm = qr_create_bitmap(hwnd, &str[0], str.size(), cxQR, cyQR))
-                {
-                    bitmaps.push_back(hbm);
-                }
-                else
-                {
-                    ErrorBoxDx(IDS_CANTGENQRCODE);
-                    return 0;
-                }
+                ErrorBoxDx(IDS_CANTGENQRCODE);
+                return 0;
             }
 
             ++iPart;
             i += bytes;
             data += bytes;
-        }
-        m_cParts = iPart - 1;
 
-        DeleteDC(hDC);
+            if (iPart >= MAX_PARTS)
+            {
+                ErrorBoxDx(IDS_EXCEEDMAXPAGE);
+                iPart = 0;
+                break;
+            }
+        }
+        ::DeleteDC(hDC);
     }
+    m_cParts = iPart - 1;
 
     return TRUE;
 }
@@ -2116,10 +2121,9 @@ quit:
     case METHOD_QRCODE_META:
         {
             char szMeTa[64];
-            StringCbPrintfA(szMeTa, sizeof(szMeTa), "MeTa>XX>YY>%s|", hash.c_str());
+            StringCbPrintfA(szMeTa, sizeof(szMeTa), "MeTa>XXX>YYY>%s|", hash.c_str());
             INT nMeTaLen = lstrlenA(szMeTa);
             nMaxQRData -= strlen(szMeTa);
-            std::string binary;
             const char *data = &bin[0];
             size_t total_size = bin.size();
             if (total_size > MAX_PRINTABLE_BYTES)
@@ -2223,14 +2227,11 @@ quit:
 
                         for (INT x0 = x; x0 + cx <= x + cxColumn; x0 += cx + cxMargin)
                         {
-                            if (bytes == 0)
-                                break;
-                            if (bin.size() - i < bytes)
-                                bytes = bin.size() - i;
+                            bytes = std::min(bytes, bin.size() - i);
 
                             INT cxQR, cyQR;
                             std::string str(data, bytes);
-                            StringCbPrintfA(szMeTa, sizeof(szMeTa), "MeTa>%02u>%02u>%s|",
+                            StringCbPrintfA(szMeTa, sizeof(szMeTa), "MeTa>%03u>%03u>%s|",
                                             iPart, m_cParts, hash.c_str());
                             str.insert(0, std::string(szMeTa));
 
@@ -2262,6 +2263,8 @@ quit:
                             ++iPart;
                             i += bytes;
                             data += bytes;
+                            if (i == bin.size())
+                                break;
                         }
                     }
                 }
