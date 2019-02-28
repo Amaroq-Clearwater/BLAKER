@@ -934,12 +934,6 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
     }
     tar.clear();
 
-    if (tbz.size() > MAX_SCREENABLE_BYTES)
-    {
-        ErrorBoxDx(IDS_TOOLARGEDATA);
-        return 0;
-    }
-
     SYSTEMTIME st;
     GetLocalTime(&st);
 
@@ -953,7 +947,7 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
     nMaxQRData -= strlen(szMeTa);
     const char *data = &tbz[0];
     size_t total_size = tbz.size();
-    if (total_size > MAX_PRINTABLE_BYTES)
+    if (total_size > MAX_SCREENABLE_BYTES)
     {
         ErrorBoxDx(IDS_TOOLARGEDATA);
         return FALSE;
