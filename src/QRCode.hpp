@@ -14,10 +14,11 @@
 #include <opencv2/opencv.hpp>
 
 #define QR_MAX_BYTES    2953
+#define QR_MIN_BYTES    17
 #define QR_MARGIN       0.2     // 0.2 inch
 
-int qr_width_from_bytes(size_t bytes);
 size_t qr_next_bytes(size_t bytes);
+int qr_width_from_bytes(size_t bytes);
 
 size_t qr_best_bytes_from_space(float space, size_t bytes, float eDotSize);
 

@@ -3,14 +3,16 @@
 size_t qr_next_bytes(size_t bytes)
 {
     if (bytes > 2000)
-        bytes -= 116;
-    else if (bytes > 1000)
-        bytes -= 74;
-    else if (bytes > 200)
-        bytes -= 38;
-    else if (bytes > 15)
-        bytes -= 15;
-    return bytes;
+        return bytes - 116 / 2;
+    if (bytes > 1000)
+        return bytes - 74 / 2;
+    if (bytes > 200)
+        return bytes - 38 / 2;
+    if (bytes > 100)
+        return bytes - 28 / 2;
+    if (bytes > 17)
+        return bytes - 15 / 2;
+    return QR_MIN_BYTES;
 }
 
 int qr_width_from_bytes(size_t bytes)
