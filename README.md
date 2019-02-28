@@ -1,4 +1,4 @@
-# BLAKER
+# <img src="B.png" alt="" width="32" height="32" />BLAKER
 
 BLAKER is a Windows application for transferring files via papers, images, or movies.
 
