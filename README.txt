@@ -32,6 +32,8 @@ We don't provide TWAIN interface. Please convert papers to a PDF file by another
 
 In default 60 DPI, it's about 20 KiB (after compression) in an A4 sheet (this is not a joke).
 
+You can choose the higher dot density, but it might cause reading failure.
+
 ## Restrictions
 
 - Up to 99 pages can be printed.

@@ -32,6 +32,8 @@ TWAINƒCƒ“ƒ^[ƒtƒF[ƒX‚Í’ñ‹Ÿ‚µ‚Ä‚¢‚Ü‚¹‚ñB ‘¼‚Ìƒ\ƒtƒgƒEƒFƒA‚ÅŽ†‚ðPDFƒtƒ@ƒCƒ‹‚É•ÏŠ
 
 Šù’è‚Ì60 DPI‚Å‚ÍAA4ƒV[ƒg‚Å–ñ 20 KiBiˆ³kŒãj‚Å‚· (‚±‚ê‚Íç’k‚Å‚Í‚ ‚è‚Ü‚¹‚ñ)B
 
+‚ ‚È‚½‚Í‚æ‚è‚‚¢ƒhƒbƒg–§“x‚ð‘I‚Ô‚±‚Æ‚ª‚Å‚«‚Ü‚·‚ªA‚»‚ê‚Í“Ç‚ÝŽæ‚èŽ¸”s‚ðˆø‚«‹N‚±‚·‚©‚à‚µ‚ê‚Ü‚¹‚ñB
+
 ™ §ŒÀ
 
 - ˆóü‰Â”\‚Èƒy[ƒW”‚Í99ƒy[ƒW‚Ü‚ÅB
