@@ -28,7 +28,7 @@ This is not a joke program but solution of realistic business issues.
 
 ## What data size can be printed on one sheet?
 
-About 18 KiB (after compression) in an A4 sheet.
+About 20 KiB (after compression) in an A4 sheet (this is not a joke).
 
 ## Restrictions
 
