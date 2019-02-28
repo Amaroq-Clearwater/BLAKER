@@ -12,6 +12,8 @@ This is not a joke program but solution of realistic business issues.
 4. Scan that PDF file by BLAKER at another PC.
 5. The original file(s) will be restored.
 
+We don't provide TWAIN interface. Please convert papers to a PDF file by another software.
+
 ## How to use BLAKER Images
 
 1. Load some files into BLAKER.
