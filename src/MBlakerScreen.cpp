@@ -167,7 +167,7 @@ void MBlakerScreen::OnCountDown(HWND hwnd)
     {
         m_iPage = 0;
         ::KillTimer(hwnd, TIMER_2);
-        ::SetTimer(hwnd, TIMER_1, m_settings.eMovieDelay * 1000, NULL);
+        ::SetTimer(hwnd, TIMER_1, (DWORD)m_settings.eMovieDelay, NULL);
     }
 }
 
@@ -181,7 +181,7 @@ void MBlakerScreen::OnTimer(HWND hwnd, UINT id)
         {
             ::KillTimer(hwnd, TIMER_1);
             if (m_bMovie)
-                ::SetTimer(hwnd, TIMER_3, m_settings.eMovieDelay * 1000, NULL);
+                ::SetTimer(hwnd, TIMER_3, (DWORD)m_settings.eMovieDelay, NULL);
         }
         break;
     case TIMER_2:

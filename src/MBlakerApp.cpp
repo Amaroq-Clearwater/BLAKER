@@ -977,22 +977,26 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
                 break;
 
             int qr_width = qr_width_from_bytes(bytes);
-            INT width = m_helper.PixelsFromInchesX(hDC, qr_width / m_settings.eDotDensity);
-            INT height = m_helper.PixelsFromInchesY(hDC, qr_width / m_settings.eDotDensity);
+            float xinch = qr_width / m_settings.eDotDensity;
+            float yinch = qr_width / m_settings.eDotDensity;
+            INT width = m_helper.PixelsFromInchesX(hDC, xinch);
+            INT height = m_helper.PixelsFromInchesY(hDC, yinch);
             cx = LONG(width);
             cy = LONG(height);
 
             INT count = 0;
             while (x + cx > sizImage.cx || y + cy > sizImage.cy ||
-                   cx / m_settings.eDotDensity < qr_width ||
-                   cy / m_settings.eDotDensity < qr_width )
+                   xinch < qr_width / m_settings.eDotDensity ||
+                   yinch < qr_width / m_settings.eDotDensity)
             {
                 if (bytes == QR_MIN_BYTES)
                     break;
                 bytes = qr_next_bytes(bytes);
                 qr_width = qr_width_from_bytes(bytes);
-                width = m_helper.PixelsFromInchesX(hDC, qr_width / m_settings.eDotDensity);
-                height = m_helper.PixelsFromInchesY(hDC, qr_width / m_settings.eDotDensity);
+                xinch = qr_width / m_settings.eDotDensity;
+                yinch = qr_width / m_settings.eDotDensity;
+                width = m_helper.PixelsFromInchesX(hDC, xinch);
+                height = m_helper.PixelsFromInchesY(hDC, yinch);
                 cx = LONG(width);
                 cy = LONG(height);
                 if (count++ >= 128)
@@ -1038,7 +1042,7 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
             {
                 ErrorBoxDx(IDS_EXCEEDMAXPAGE);
                 iPart = 0;
-                break;
+                return FALSE;
             }
         }
         ::DeleteDC(hDC);
@@ -2005,7 +2009,7 @@ quit:
                 {
                     ErrorBoxDx(IDS_EXCEEDMAXPAGE);
                     iPage = 0;
-                    break;
+                    return 0;
                 }
             }
         }
@@ -2110,7 +2114,7 @@ quit:
                 {
                     ErrorBoxDx(IDS_EXCEEDMAXPAGE);
                     iPage = 0;
-                    break;
+                    return 0;
                 }
             }
         }
@@ -2283,7 +2287,7 @@ quit:
                 {
                     ErrorBoxDx(IDS_EXCEEDMAXPAGE);
                     iPage = 0;
-                    break;
+                    return 0;
                 }
             }
             m_cParts = iPart - 1;

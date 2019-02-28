@@ -20,13 +20,15 @@ BOOL MSettingsDlg::OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
     SendDlgItemMessage(hwnd, cmb1, CB_ADDSTRING, 0, (LPARAM)L"60");
     SendDlgItemMessage(hwnd, cmb1, CB_ADDSTRING, 0, (LPARAM)L"40");
 
-    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"0.05");
-    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"0.1");
-    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"0.2");
-    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"0.5");
+    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"75");
+    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"100");
+    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"200");
+    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"300");
+    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"400");
+    SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"500");
 
     SetDlgItemDouble(hwnd, cmb1, m_settings.eDotDensity, "%g");
-    SetDlgItemDouble(hwnd, cmb2, m_settings.eMovieDelay, "%.3f");
+    SetDlgItemDouble(hwnd, cmb2, m_settings.eMovieDelay, "%g");
 
     OnCmb1(hwnd);
 

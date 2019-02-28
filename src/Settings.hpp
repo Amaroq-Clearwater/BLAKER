@@ -9,7 +9,7 @@ struct BLAKER_SETTINGS
     void reset()
     {
         eDotDensity = 60;       // 60 dpi
-        eMovieDelay = 0.5;      // 0.5 seconds
+        eMovieDelay = 400;      // 400 milliseconds
     }
 };
 
