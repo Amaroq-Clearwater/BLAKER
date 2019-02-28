@@ -40,7 +40,7 @@ You can choose the higher dot density, but it might cause reading failure.
 - The amount of printable data after compression is 256 KiB.
 - The amount of screenable data after compression is 1.5 MiB.
 
-Do not waste papers. You can virtually print by using the PDF printer.
+Do not waste papers. You can virtually print to a PDF file by using the PDF printer.
 
 ## How to build?
 

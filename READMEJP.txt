@@ -40,7 +40,7 @@ TWAINƒCƒ“ƒ^[ƒtƒF[ƒX‚Í’ñ‹Ÿ‚µ‚Ä‚¢‚Ü‚¹‚ñB ‘¼‚Ìƒ\ƒtƒgƒEƒFƒA‚ÅŽ†‚ðPDFƒtƒ@ƒCƒ‹‚É•ÏŠ
 - ˆ³kŒã‚Ìˆóü‰Â”\‚Èƒf[ƒ^—Ê‚Í256KiB‚Ü‚ÅB
 - ˆ³kŒã‚Ìã‰f‰Â”\‚Èƒf[ƒ^—Ê‚Í1.5MiB‚Ü‚ÅB
 
-Ž†‚ð–³‘Ê‚É‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B ‚ ‚È‚½‚ÍPDFƒvƒŠƒ“ƒ^[‚ÌŽg—p‚É‚æ‚Á‚Ä‰¼‘z“I‚Éˆóü‚Å‚«‚Ü‚·B
+Ž†‚ð–³‘Ê‚É‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B ‚ ‚È‚½‚ÍPDFƒvƒŠƒ“ƒ^[‚ÌŽg—p‚É‚æ‚Á‚ÄPDFƒtƒ@ƒCƒ‹‚É‰¼‘z“I‚Éˆóü‚Å‚«‚Ü‚·B
 
 ™ XV—š—ð
 
