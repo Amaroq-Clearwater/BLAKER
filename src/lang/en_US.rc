@@ -185,12 +185,13 @@ CAPTION "BLAKER Settings"
 STYLE DS_MODALFRAME | WS_POPUPWINDOW | WS_DLGFRAME
 FONT 9, "Tahoma"
 {
-    LTEXT "One dot of QR code:", IDC_STATIC, 5, 7, 90, 11
-    EDITTEXT edt1, 100, 5, 45, 14
-    LTEXT "inches", IDC_STATIC, 150, 7, 35, 12
-    LTEXT "Movie &Delay:", IDC_STATIC, 5, 27, 90, 12
-    EDITTEXT edt2, 100, 25, 45, 14
-    LTEXT "seconds", IDC_STATIC, 150, 27, 35, 12
+    RTEXT "&Dot density:", IDC_STATIC, 5, 7, 70, 11
+    COMBOBOX cmb1, 80, 5, 60, 300, CBS_HASSTRINGS | CBS_AUTOHSCROLL | CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT "dpi", IDC_STATIC, 145, 7, 40, 12
+    LTEXT "One dot is ??.???mm.", stc1, 80, 22, 105, 12
+    RTEXT "&Movie delay:", IDC_STATIC, 5, 40, 70, 12
+    COMBOBOX cmb2, 80, 38, 60, 300, CBS_HASSTRINGS | CBS_AUTOHSCROLL | CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT "seconds", IDC_STATIC, 145, 40, 40, 12
     DEFPUSHBUTTON "OK", IDOK, 85, 115, 60, 14
     PUSHBUTTON "Cancel", IDCANCEL, 150, 115, 60, 14
     PUSHBUTTON "&Reset!", psh1, 5, 115, 60, 14
@@ -246,6 +247,7 @@ STRINGTABLE
     IDS_RAWQRLIMIT, "A raw QR code cannot store multiple binary data."
     IDS_CANTSTARTTHREAD, "Could not start thread."
     IDS_INVALID_VALUE, "Invalid value."
+    IDS_DOTSIZE, "One dot is %.3fmm."
 }
 
 //////////////////////////////////////////////////////////////////////////////

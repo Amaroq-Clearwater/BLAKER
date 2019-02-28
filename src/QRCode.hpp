@@ -20,7 +20,7 @@
 size_t qr_next_bytes(size_t bytes);
 int qr_width_from_bytes(size_t bytes);
 
-size_t qr_best_bytes_from_space(float space, size_t bytes, float eDotSize);
+size_t qr_best_bytes_from_space(float space, size_t bytes, float eDotDensity);
 
 QRcode* qr_code_create(const void *data, size_t size);
 

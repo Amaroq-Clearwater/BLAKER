@@ -3,13 +3,13 @@
 
 struct BLAKER_SETTINGS
 {
-    float eDotSize;
+    float eDotDensity;
     float eMovieDelay;
 
     void reset()
     {
-        eDotSize = 0.018;       // 0.018 inches == 0.46mm
-        eMovieDelay = 0.500;    // 0.500 seconds
+        eDotDensity = 60;       // 60 dpi
+        eMovieDelay = 0.5;      // 0.5 seconds
     }
 };
 

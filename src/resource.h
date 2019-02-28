@@ -62,6 +62,7 @@
 #define IDS_RAWQRLIMIT                      142
 #define IDS_CANTSTARTTHREAD                 143
 #define IDS_INVALID_VALUE                   144
+#define IDS_DOTSIZE                         145
 
 #define ID_EXIT                             100
 #define ID_PAGESETUP                        101

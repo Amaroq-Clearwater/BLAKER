@@ -977,22 +977,22 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
                 break;
 
             int qr_width = qr_width_from_bytes(bytes);
-            INT width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
-            INT height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
+            INT width = m_helper.PixelsFromInchesX(hDC, qr_width / m_settings.eDotDensity);
+            INT height = m_helper.PixelsFromInchesY(hDC, qr_width / m_settings.eDotDensity);
             cx = LONG(width);
             cy = LONG(height);
 
             INT count = 0;
             while (x + cx > sizImage.cx || y + cy > sizImage.cy ||
-                   cx / qr_width < m_settings.eDotSize ||
-                   cy / qr_width < m_settings.eDotSize)
+                   cx / m_settings.eDotDensity < qr_width ||
+                   cy / m_settings.eDotDensity < qr_width )
             {
                 if (bytes == QR_MIN_BYTES)
                     break;
                 bytes = qr_next_bytes(bytes);
                 qr_width = qr_width_from_bytes(bytes);
-                width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
-                height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
+                width = m_helper.PixelsFromInchesX(hDC, qr_width / m_settings.eDotDensity);
+                height = m_helper.PixelsFromInchesY(hDC, qr_width / m_settings.eDotDensity);
                 cx = LONG(width);
                 cy = LONG(height);
                 if (count++ >= 128)
@@ -1372,16 +1372,16 @@ BOOL MBlakerApp::DoLoadSettings(BLAKER_SETTINGS& settings)
         ::RegOpenKeyExW(hCompany, s_szApp, 0, KEY_READ, &hApp);
         if (hApp)
         {
-            // eDotSize
+            // eDotDensity
             cb = sizeof(szText);
-            if (::RegQueryValueExW(hApp, L"eDotSize", NULL, NULL,
+            if (::RegQueryValueExW(hApp, L"eDotDensity", NULL, NULL,
                                    LPBYTE(szText), &cb) == ERROR_SUCCESS)
             {
                 WCHAR *endptr;
                 double eValue = wcstod(szText, &endptr);
                 if (*endptr == 0 && (float)eValue > 0)
                 {
-                    settings.eDotSize = (float)eValue;
+                    settings.eDotDensity = (float)eValue;
                 }
             }
 
@@ -1430,10 +1430,10 @@ BOOL MBlakerApp::DoSaveSettings(const BLAKER_SETTINGS& settings)
                           NULL, &hApp, NULL);
         if (hApp)
         {
-            // eDotSize
-            StringCbPrintfW(szText, sizeof(szText), L"%g", settings.eDotSize);
+            // eDotDensity
+            StringCbPrintfW(szText, sizeof(szText), L"%g", settings.eDotDensity);
             cb = (lstrlenW(szText) + 1) * sizeof(WCHAR);
-            ::RegSetValueExW(hApp, L"eDotSize", 0, REG_SZ, (LPBYTE)szText, cb);
+            ::RegSetValueExW(hApp, L"eDotDensity", 0, REG_SZ, (LPBYTE)szText, cb);
 
             // eMovieDelay
             StringCbPrintfW(szText, sizeof(szText), L"%g", settings.eMovieDelay);
@@ -2027,7 +2027,7 @@ quit:
             float space_x = m_helper.InchesFromPixelsX(hDC, cxSpace);
             float space_y = m_helper.InchesFromPixelsY(hDC, cySpace);
             float space = std::min(space_x, space_y);
-            bytes = qr_best_bytes_from_space(space, nMaxQRData, m_settings.eDotSize);
+            bytes = qr_best_bytes_from_space(space, nMaxQRData, m_settings.eDotDensity);
 
             for (size_t i = 0; i < bin.size(); i += bytes)
             {
@@ -2189,22 +2189,26 @@ quit:
                             break;
 
                         int qr_width = qr_width_from_bytes(bytes);
-                        INT width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
-                        INT height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
+                        float xinch = qr_width / m_settings.eDotDensity;
+                        float yinch = qr_width / m_settings.eDotDensity;
+                        INT width = m_helper.PixelsFromInchesX(hDC, xinch);
+                        INT height = m_helper.PixelsFromInchesY(hDC, yinch);
                         cx = LONG(width);
                         cy = LONG(height);
 
                         INT count = 0;
                         while (x + cx > rcPrintArea.right || y + cy > rcPrintArea.bottom ||
-                               cx / qr_width < m_settings.eDotSize ||
-                               cy / qr_width < m_settings.eDotSize)
+                               xinch < qr_width / m_settings.eDotDensity ||
+                               yinch < qr_width / m_settings.eDotDensity)
                         {
                             if (bytes == QR_MIN_BYTES)
                                 break;
                             bytes = qr_next_bytes(bytes);
                             qr_width = qr_width_from_bytes(bytes);
-                            width = m_helper.PixelsFromInchesX(hDC, qr_width * m_settings.eDotSize);
-                            height = m_helper.PixelsFromInchesY(hDC, qr_width * m_settings.eDotSize);
+                            xinch = qr_width / m_settings.eDotDensity;
+                            yinch = qr_width / m_settings.eDotDensity;
+                            width = m_helper.PixelsFromInchesX(hDC, xinch);
+                            height = m_helper.PixelsFromInchesY(hDC, yinch);
                             cx = LONG(width);
                             cy = LONG(height);
                             if (count++ >= 128)
