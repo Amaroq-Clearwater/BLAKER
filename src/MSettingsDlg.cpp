@@ -19,6 +19,7 @@ BOOL MSettingsDlg::OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
     SendDlgItemMessage(hwnd, cmb1, CB_ADDSTRING, 0, (LPARAM)L"75");
     SendDlgItemMessage(hwnd, cmb1, CB_ADDSTRING, 0, (LPARAM)L"60");
     SendDlgItemMessage(hwnd, cmb1, CB_ADDSTRING, 0, (LPARAM)L"40");
+    SendDlgItemMessage(hwnd, cmb1, CB_ADDSTRING, 0, (LPARAM)L"20");
 
     SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"75");
     SendDlgItemMessage(hwnd, cmb2, CB_ADDSTRING, 0, (LPARAM)L"100");
@@ -106,6 +107,25 @@ void MSettingsDlg::OnCmb1(HWND hwnd)
     }
 }
 
+void MSettingsDlg::OnCmb1SelEndOK(HWND hwnd)
+{
+    INT iSel = (INT)SendDlgItemMessage(hwnd, cmb1, CB_GETCURSEL, 0, 0);
+
+    WCHAR szText[128];
+    SendDlgItemMessage(hwnd, cmb1, CB_GETLBTEXT, iSel, (LPARAM)szText);
+
+    float eDotDensity = wcstod(szText, NULL);
+    if (eDotDensity > 0)
+    {
+        float eDotSize = 25.4 / eDotDensity;
+        SetDlgItemText(hwnd, stc1, LoadStringPrintfDx(IDS_DOTSIZE, eDotSize));
+    }
+    else
+    {
+        SetDlgItemText(hwnd, stc1, NULL);
+    }
+}
+
 void MSettingsDlg::OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 {
     switch (id)
@@ -123,8 +143,10 @@ void MSettingsDlg::OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
         switch (codeNotify)
         {
         case CBN_EDITCHANGE:
-        case CBN_SELCHANGE:
             OnCmb1(hwnd);
+            break;
+        case CBN_SELENDOK:
+            OnCmb1SelEndOK(hwnd);
             break;
         }
         break;

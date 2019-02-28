@@ -30,6 +30,7 @@ protected:
     void OnOK(HWND hwnd);
     void OnPsh1(HWND hwnd);
     void OnCmb1(HWND hwnd);
+    void OnCmb1SelEndOK(HWND hwnd);
 };
 
 #endif  // ndef MSETTINGS_DLG_HPP_
