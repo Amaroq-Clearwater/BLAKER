@@ -26,9 +26,9 @@ This is not a joke program but solution of realistic business issues.
 3. Scan that movie file by BLAKER at another PC.
 4. The original file(s) will be restored.
 
-## What data size can be printed on one sheet?
+## How much data size can be printed on one sheet?
 
-About 20 KiB (after compression) in an A4 sheet (this is not a joke).
+In default 60 DPI, it's about 20 KiB (after compression) in an A4 sheet (this is not a joke).
 
 ## Restrictions
 
