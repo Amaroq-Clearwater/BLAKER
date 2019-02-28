@@ -36,6 +36,7 @@ inline bool qr_scan_image(cv::Mat& img, T_CALLBACK& callback, LPARAM lParam = 0)
     zbar::Image image(width, height, "Y800", raw, width * height);
 
     zbar::ImageScanner scanner;
+    scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 0);
     scanner.set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1);
     int n = scanner.scan(image);
 

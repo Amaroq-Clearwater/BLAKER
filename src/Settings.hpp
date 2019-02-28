@@ -8,8 +8,8 @@ struct BLAKER_SETTINGS
 
     void reset()
     {
-        eDotSize = 0.018;       // 0.018 inches
-        eMovieDelay = 0.540;    // 0.540 seconds
+        eDotSize = 0.018;       // 0.018 inches == 0.46mm
+        eMovieDelay = 0.500;    // 0.500 seconds
     }
 };
 

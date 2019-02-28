@@ -435,6 +435,7 @@ bool MBlakerApp::QR_CALLBACK_DATA::operator()(zbar::Image::SymbolIterator& symbo
                     m_error = INVALID_HASH;
                     return false;
                 }
+                printf("%d/%d\n", iPart, cParts);
             }
         }
     }
@@ -944,7 +945,7 @@ INT MBlakerApp::DoCreateImages(HWND hwnd, std::vector<HBITMAP>& bitmaps,
     char szMeTa[64];
     StringCbPrintfA(szMeTa, sizeof(szMeTa), "MeTa>XXX>YYY>%s|", hash.c_str());
     INT nMeTaLen = lstrlenA(szMeTa);
-    nMaxQRData -= strlen(szMeTa);
+    nMaxQRData -= nMeTaLen;
     const char *data = &tbz[0];
     size_t total_size = tbz.size();
     if (total_size > MAX_SCREENABLE_BYTES)
@@ -1941,7 +1942,8 @@ BOOL MBlakerApp::DoPrintPages(HWND hwnd, HDC hDC, LPCWSTR pszDocName)
                     if (m_cPages >= 10)
                     {
                         StringCbPrintfA(szText, sizeof(szText),
-                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%02u/%02u \x02",
+                            "\x02 %s \x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%02u/%02u \x02",
+                            "BLAKER",
                             st.wYear, st.wMonth, st.wDay,
                             st.wHour, st.wMinute, st.wSecond,
                             iPage + 1, m_cPages);
@@ -1949,7 +1951,8 @@ BOOL MBlakerApp::DoPrintPages(HWND hwnd, HDC hDC, LPCWSTR pszDocName)
                     else
                     {
                         StringCbPrintfA(szText, sizeof(szText),
-                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%01u/%01u \x02",
+                            "\x02 %s \x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%01u/%01u \x02",
+                            "BLAKER",
                             st.wYear, st.wMonth, st.wDay,
                             st.wHour, st.wMinute, st.wSecond,
                             iPage + 1, m_cPages);
@@ -2046,7 +2049,8 @@ quit:
                     if (m_cPages >= 10)
                     {
                         StringCbPrintfA(szText, sizeof(szText),
-                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%02u/%02u \x02",
+                            "\x02 %s \x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%02u/%02u \x02",
+                            "BLAKER",
                             st.wYear, st.wMonth, st.wDay,
                             st.wHour, st.wMinute, st.wSecond,
                             iPage + 1, m_cPages);
@@ -2054,7 +2058,8 @@ quit:
                     else
                     {
                         StringCbPrintfA(szText, sizeof(szText),
-                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%01u/%01u \x02",
+                            "\x02 %s \x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%01u/%01u \x02",
+                            "BLAKER",
                             st.wYear, st.wMonth, st.wDay,
                             st.wHour, st.wMinute, st.wSecond,
                             iPage + 1, m_cPages);
@@ -2081,8 +2086,6 @@ quit:
                                 y += cxMargin;
                                 StretchBlt(hDC, x, y, cx, cy,
                                            hdcMem, 0, 0, cxQR, cyQR, SRCCOPY);
-                                m_renderer.drawString(hDC, "BLAKER",
-                                    x, y - cyChar / 2, cxChar / 2, cyChar / 2);
                             }
                             SelectObject(hdcMem, hbmOld);
                             DeleteDC(hdcMem);
@@ -2116,8 +2119,8 @@ quit:
         {
             char szMeTa[64];
             StringCbPrintfA(szMeTa, sizeof(szMeTa), "MeTa>XXX>YYY>%s|", hash.c_str());
-            INT nMeTaLen = lstrlenA(szMeTa);
-            nMaxQRData -= strlen(szMeTa);
+            INT nMeTaLen = strlen(szMeTa);
+            nMaxQRData -= nMeTaLen;
             const char *data = &bin[0];
             size_t total_size = bin.size();
             if (total_size > MAX_PRINTABLE_BYTES)
@@ -2145,7 +2148,8 @@ quit:
                     if (m_cPages >= 10)
                     {
                         StringCbPrintfA(szText, sizeof(szText),
-                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%02u/%02u \x02",
+                            "\x02 %s \x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%02u/%02u \x02",
+                            "BLAKER",
                             st.wYear, st.wMonth, st.wDay,
                             st.wHour, st.wMinute, st.wSecond,
                             iPage + 1, m_cPages);
@@ -2153,7 +2157,8 @@ quit:
                     else
                     {
                         StringCbPrintfA(szText, sizeof(szText),
-                            "\x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%01u/%01u \x02",
+                            "\x02 %s \x02 %04u.%02u.%02u %02u:%02u:%02u \x02 Page:%01u/%01u \x02",
+                            "BLAKER",
                             st.wYear, st.wMonth, st.wDay,
                             st.wHour, st.wMinute, st.wSecond,
                             iPage + 1, m_cPages);
@@ -2221,7 +2226,8 @@ quit:
 
                         for (INT x0 = x; x0 + cx <= x + cxColumn; x0 += cx + cxMargin)
                         {
-                            bytes = std::min(bytes, bin.size() - i);
+                            if (bytes > bin.size() - i)
+                                bytes = bin.size() - i;
 
                             INT cxQR, cyQR;
                             std::string str(data, bytes);
@@ -2239,8 +2245,6 @@ quit:
                                         {
                                             StretchBlt(hDC, x0, y, cx, cy,
                                                        hdcMem, 0, 0, cxQR, cyQR, SRCCOPY);
-                                            m_renderer.drawString(hDC, "BLAKER",
-                                                x0, y - cyChar / 2, cxChar / 2, cyChar / 2);
                                         }
                                         SelectObject(hdcMem, hbmOld);
                                         DeleteDC(hdcMem);
@@ -2260,6 +2264,8 @@ quit:
                             if (i == bin.size())
                                 break;
                         }
+                        if (i == bin.size())
+                            break;
                     }
                 }
 
