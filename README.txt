@@ -1,6 +1,6 @@
 # BLAKER
 
-BLAKER is a Windows application to transfer electoric files via papers, images, or movies.
+BLAKER is a free Windows application to transfer electoric files via papers, images, or movies.
 
 This is not a joke program but solution of realistic business issues.
 
