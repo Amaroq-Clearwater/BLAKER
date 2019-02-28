@@ -2,6 +2,8 @@
 
 BLAKER is a Windows application for transferring files via papers, images, or movies.
 
+This is not a joke program but solution of realistic business issues.
+
 ## How to use BLAKER Papers
 
 1. Load some files into BLAKER.
@@ -33,6 +35,8 @@ About 18 KiB (after compression) in an A4 sheet.
 - Up to 99 pages can be printed.
 - The amount of printable data after compression is 256 KiB.
 - The amount of screenable data after compression is 1.5 MiB.
+
+Do not waste papers. You can virtually print by using the PDF printer.
 
 ## How to build?
 
