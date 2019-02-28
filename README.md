@@ -4,6 +4,8 @@ BLAKER is a Windows application for transferring files via papers, images, or mo
 
 This is not a joke program but solution of realistic business issues.
 
+Download: https://katahiromz.web.fc2.com/blaker/en
+
 ## How to use BLAKER Papers
 
 1. Load some files into BLAKER.

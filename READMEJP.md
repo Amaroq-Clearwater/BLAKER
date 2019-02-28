@@ -1,8 +1,10 @@
-﻿# BLAKER
+﻿# <img src="B.png" alt="" width="32" height="32" /> BLAKER
 
 BLAKER (ブレイカー) は、紙、画像、または動画を用いてデータファイルを転送するためのWindowsアプリケーションです。
 
 これは冗談のプログラムではなく、現実的なビジネス上の問題の解決策です。
+
+ダウンロード: https://katahiromz.web.fc2.com/blaker/ja
 
 ## BLAKER Papers の使い方
 
