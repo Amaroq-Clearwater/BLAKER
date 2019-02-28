@@ -46,7 +46,8 @@ TWAINƒCƒ“ƒ^[ƒtƒF[ƒX‚Í’ñ‹Ÿ‚µ‚Ä‚¢‚Ü‚¹‚ñB ‘¼‚Ìƒ\ƒtƒgƒEƒFƒA‚ÅŽ†‚ðPDFƒtƒ@ƒCƒ‹‚É•ÏŠ
 
 2019.02.27 ver.0.7.0
     ‰ŒöŠJB
-2019.XX.YY ver.0.7.1
+2019.02.28 ver.0.7.1
     ƒf[ƒ^–§“x‚ðŒüãB
     uReadMe‚ðŠJ‚­vƒƒjƒ…[€–Ú‚ðƒwƒ‹ƒv‚É’Ç‰ÁB
     Ý’è‚ð’Ç‰ÁB
+    64ƒrƒbƒg‚ÌƒTƒ|[ƒgB

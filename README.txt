@@ -46,7 +46,8 @@ Do not waste papers. You can virtually print to a PDF file by using the PDF prin
 
 - 2019.02.27 ver.0.7.0
     * First release.
-- 2019.XX.YY ver.0.7.1
+- 2019.02.28 ver.0.7.1
     * Improve data density.
     * Add menu item "Open ReadMe" to [Help] menu.
     * Add settings.
+    * Support 64-bit.
