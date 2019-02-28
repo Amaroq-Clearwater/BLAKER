@@ -24,6 +24,10 @@ BLAKER is a Windows application for transferring files via papers, images, or mo
 3. Scan that movie file by BLAKER at another PC.
 4. The original file(s) will be restored.
 
+## What data size can be printed on one sheet?
+
+About 18 KiB (after compression) in an A4 sheet.
+
 ## Restrictions
 
 - Up to 99 pages can be printed.
