@@ -52,3 +52,7 @@ TWAINƒCƒ“ƒ^[ƒtƒF[ƒX‚Í’ñ‹Ÿ‚µ‚Ä‚¢‚Ü‚¹‚ñB ‘¼‚Ìƒ\ƒtƒgƒEƒFƒA‚Å†‚ğPDFƒtƒ@ƒCƒ‹‚É•ÏŠ
     İ’è‚ğ’Ç‰ÁB
     64ƒrƒbƒg‚ÌƒTƒ|[ƒgB
 2019.XX.YY ver.0.7.2
+
+™ ˜A—æ
+
+katayama.hirofumi.mz@gmail.com

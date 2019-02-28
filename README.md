@@ -54,3 +54,7 @@ $ cd BLAKER
 $ cmake -G "MSYS Makefiles" .
 $ make -j2
 ```
+
+## Contact Us
+
+katayama.hirofumi.mz@gmail.com
