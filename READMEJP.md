@@ -2,6 +2,8 @@
 
 BLAKER (ブレイカー) は、紙、画像、または動画を用いてデータファイルを転送するための無料のWindowsアプリケーションです。
 
+<p align="center><img src="concept.png" alt="" width="300" height="119" /></p>
+
 これは冗談のプログラムではなく、現実的なビジネス上の問題の解決策です。
 
 ダウンロード: https://katahiromz.web.fc2.com/blaker/ja

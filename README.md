@@ -2,6 +2,8 @@
 
 BLAKER is a free Windows application to transfer electoric files via papers, images, or movies.
 
+<p align="center><img src="concept.png" alt="" width="300" height="119" /></p>
+
 This is not a joke program but solution of realistic business issues.
 
 Download: https://katahiromz.web.fc2.com/blaker/en
