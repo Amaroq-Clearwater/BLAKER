@@ -11,16 +11,16 @@ The MeTa data is defined as follows:
 
 1. It starts with "MeTa".
 2. Two integers (they represent the part ordinal and the part count in decimal).
-3. A Base64Int-encoded integer.
+3. A Base64Int-encoded integer (hash).
 4. Each items are separated with ">".
 5. The MeTa data ends with "|".
 
 For example, if a MeTa data is "MeTa>01>02>BA|",
-then the part ordinal of this MeTa data is one, and the part count is 2, and then,
-the A Base64Int-encoded integer is "BA" (64).
+then the part ordinal of this MeTa data is one, and the part count is 2, and,
+the Base64Int-encoded integer is "BA" (64).
 
 For information about Base64Int, see file "Base64Int.hpp".
 
 --
-2019.02.26
+2019.03.02
 Katayama Hirofumi MZ
