@@ -1490,16 +1490,19 @@ void MBlakerApp::OnOpenReadMe(HWND hwnd)
     GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
     LPTCH pch = PathFindFileName(szPath);
     *pch = 0;
-    PathAppend(szPath, TEXT("ReadMe.txt"));
+    PathAppend(szPath, LoadStringDx(IDS_README_TXT));
     if (!PathFileExists(szPath))
     {
         *pch = 0;
-        PathAppend(szPath, TEXT("..\\ReadMe.txt"));
+        PathAppend(szPath, TEXT(".."));
+        PathAppend(szPath, LoadStringDx(IDS_README_TXT));
     }
     if (!PathFileExists(szPath))
     {
         *pch = 0;
-        PathAppend(szPath, TEXT("..\\..\\ReadMe.txt"));
+        PathAppend(szPath, TEXT(".."));
+        PathAppend(szPath, TEXT(".."));
+        PathAppend(szPath, LoadStringDx(IDS_README_TXT));
     }
     ShellExecute(hwnd, NULL, szPath, NULL, NULL, 0);
 }

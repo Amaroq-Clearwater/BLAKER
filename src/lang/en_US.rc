@@ -44,7 +44,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
     }
     POPUP "&Help"
     {
-        MENUITEM "Open &README.txt", ID_OPEN_README
+        MENUITEM "Open &README", ID_OPEN_README
         MENUITEM SEPARATOR
         MENUITEM "&About...", ID_ABOUT
     }
@@ -248,6 +248,7 @@ STRINGTABLE
     IDS_CANTSTARTTHREAD, "Could not start thread."
     IDS_INVALID_VALUE, "Invalid value."
     IDS_DOTSIZE, "One dot is %.3fmm."
+    IDS_README_TXT, "README.txt"
 }
 
 //////////////////////////////////////////////////////////////////////////////

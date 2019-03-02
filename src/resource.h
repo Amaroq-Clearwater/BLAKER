@@ -63,6 +63,7 @@
 #define IDS_CANTSTARTTHREAD                 143
 #define IDS_INVALID_VALUE                   144
 #define IDS_DOTSIZE                         145
+#define IDS_README_TXT                      146
 
 #define ID_EXIT                             100
 #define ID_PAGESETUP                        101
