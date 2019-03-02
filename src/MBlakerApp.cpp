@@ -708,7 +708,6 @@ BOOL MBlakerApp::DoScanBinaries(HWND hwnd, std::vector<std::string>& binaries)
     if (binaries.empty())
     {
         ListView_DeleteAllItems(m_hListView);
-        InvalidateRect(hwnd, NULL, TRUE);
         ErrorBoxDx(IDS_INVALID_DATA);
         return FALSE;
     }
