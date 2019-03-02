@@ -62,18 +62,6 @@ void MSpecialStatic::OnPaint(HWND hwnd)
                 INT y = pt.y - nSize / 2;
                 StretchBlt(hDC, x, y, nSize, nSize,
                            hdcMem, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
-                INT cxChar = (SCREEN_MARGIN * 2 / 3) / 3;
-                INT cyChar = (SCREEN_MARGIN * 2 / 3) / 2;
-                LOGFONT lf;
-                ZeroMemory(&lf, sizeof(lf));
-                lf.lfHeight = cyChar;
-                if (HFONT hFont = CreateFontIndirect(&lf))
-                {
-                    HGDIOBJ hFontOld = SelectObject(hDC, hFont);
-                    TextOutA(hDC, x, y - cyChar, "BLAKER", lstrlenA("BLAKER"));
-                    SelectObject(hDC, hFontOld);
-                    DeleteObject(hFont);
-                }
             }
             SelectObject(hdcMem, hbmOld);
             DeleteDC(hdcMem);
