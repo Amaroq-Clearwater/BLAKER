@@ -52,6 +52,7 @@ TWAINƒCƒ“ƒ^[ƒtƒF[ƒX‚Í’ñ‹Ÿ‚µ‚Ä‚¢‚Ü‚¹‚ñB ‘¼‚Ìƒ\ƒtƒgƒEƒFƒA‚ÅŽ†‚ðPDFƒtƒ@ƒCƒ‹‚É•ÏŠ
     Ý’è‚ð’Ç‰ÁB
     64ƒrƒbƒg‚ÌƒTƒ|[ƒgB
 2019.XX.YY ver.0.7.2
+    ƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ðC³B
 
 ™ ˜A—æ
 

@@ -1600,15 +1600,13 @@ void MBlakerApp::OnSaveSelection(HWND hwnd)
     }
 }
 
-void MBlakerApp::OnRClick(HWND hwnd)
+BOOL MBlakerApp::DoContextMenu(HWND hwnd, POINT pt)
 {
     HMENU hMenu = ::LoadMenu(GetModuleHandle(NULL), MAKEINTRESOURCE(2));
     HMENU hSubMenu = ::GetSubMenu(hMenu, 0);
     if (!hMenu || !hSubMenu)
-        return;
+        return FALSE;
 
-    POINT pt;
-    ::GetCursorPos(&pt);
     ::SetForegroundWindow(hwnd);
     UINT uFlags = TPM_RIGHTBUTTON | TPM_LEFTALIGN | TPM_RETURNCMD;
     UINT nID = ::TrackPopupMenu(hSubMenu, uFlags, pt.x, pt.y, 0, hwnd, NULL);
@@ -1617,6 +1615,7 @@ void MBlakerApp::OnRClick(HWND hwnd)
     ::DestroyMenu(hMenu);
 
     ::PostMessage(hwnd, WM_COMMAND, nID, 0);
+    return TRUE;
 }
 
 LRESULT MBlakerApp::OnNotify(HWND hwnd, int idFrom, LPNMHDR pnmhdr)
@@ -1664,9 +1663,6 @@ LRESULT MBlakerApp::OnNotify(HWND hwnd, int idFrom, LPNMHDR pnmhdr)
             break;
         case LVN_BEGINDRAG:
             OnBeginDrag(hwnd);
-            break;
-        case NM_RCLICK:
-            OnRClick(hwnd);
             break;
         }
     }
@@ -1758,6 +1754,26 @@ void MBlakerApp::OnSize(HWND hwnd, UINT state, int cx, int cy)
     INT cyStatus = rcStatus.bottom - rcStatus.top;
 
     MoveWindow(m_hListView, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top - cyStatus, TRUE);
+}
+
+void MBlakerApp::OnContextMenu(HWND hwnd, HWND hwndContext, UINT xPos, UINT yPos)
+{
+    POINT pt;
+
+    if (xPos == 0xFFFF && yPos == 0xFFFF)
+    {
+        RECT rc;
+        GetWindowRect(m_hListView, &rc);
+        pt.x = rc.left;
+        pt.y = rc.top;
+    }
+    else
+    {
+        pt.x = xPos;
+        pt.y = yPos;
+    }
+
+    DoContextMenu(hwnd, pt);
 }
 
 void MBlakerApp::OnInitMenuPopup(HWND hwnd, HMENU hMenu, UINT item, BOOL fSystemMenu)

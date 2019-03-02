@@ -71,6 +71,7 @@ public:
 
     BOOL DoLoadSettings(BLAKER_SETTINGS& settings);
     BOOL DoSaveSettings(const BLAKER_SETTINGS& settings);
+    BOOL DoContextMenu(HWND hwnd, POINT pt);
 
     virtual LRESULT CALLBACK
     WindowProcDx(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -85,6 +86,7 @@ public:
             HANDLE_MSG(hwnd, WM_INITMENUPOPUP, OnInitMenuPopup);
             HANDLE_MSG(hwnd, WM_DROPFILES, OnDropFiles);
             HANDLE_MSG(hwnd, WM_NOTIFY, OnNotify);
+            HANDLE_MSG(hwnd, WM_CONTEXTMENU, OnContextMenu);
         default:
             return DefaultProcDx(hwnd, uMsg, wParam, lParam);
         }
@@ -131,11 +133,11 @@ protected:
     void OnBeginDrag(HWND hwnd);
     void OnRename(HWND hwnd);
     void OnDelete(HWND hwnd);
-    void OnRClick(HWND hwnd);
     void OnSaveSelection(HWND hwnd);
     void OnAbout(HWND hwnd);
     void OnOpenReadMe(HWND hwnd);
     void OnSettings(HWND hwnd);
+    void OnContextMenu(HWND hwnd, HWND hwndContext, UINT xPos, UINT yPos);
 
     struct QR_CALLBACK_DATA
     {
