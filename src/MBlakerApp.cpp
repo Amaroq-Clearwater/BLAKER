@@ -1,5 +1,6 @@
 #include "stdafx.hpp"
 #include <vfw.h>
+#include <shlobj.h> // for DROPFILES
 #include "MAboutDlg.hpp"
 #include "MSettingsDlg.hpp"
 
@@ -1671,6 +1672,47 @@ LRESULT MBlakerApp::OnNotify(HWND hwnd, int idFrom, LPNMHDR pnmhdr)
     return FALSE;
 }
 
+void MBlakerApp::OnCopy(HWND hwnd)
+{
+}
+
+void MBlakerApp::OnPaste(HWND hwnd)
+{
+    if (!::IsClipboardFormatAvailable(CF_HDROP))
+        return;
+
+    if (!::OpenClipboard(hwnd))
+        return;
+
+    if (HGLOBAL hGlobal = ::GetClipboardData(CF_HDROP))
+    {
+        if (DROPFILES *pFiles = (DROPFILES *)::GlobalLock(hGlobal))
+        {
+            if (pFiles->fWide)
+            {
+                LPWSTR pszzFiles = LPWSTR(LPBYTE(pFiles) + pFiles->pFiles);
+                while (*pszzFiles)
+                {
+                    DoLoad(hwnd, pszzFiles);
+                    pszzFiles += lstrlenW(pszzFiles) + 1;
+                }
+            }
+            else
+            {
+                LPSTR pszzFiles = LPSTR(LPBYTE(pFiles) + pFiles->pFiles);
+                while (*pszzFiles)
+                {
+                    DoLoad(hwnd, AnsiToWide(pszzFiles).c_str());
+                    pszzFiles += lstrlenA(pszzFiles) + 1;
+                }
+            }
+            ::GlobalUnlock(hGlobal);
+        }
+    }
+
+    ::CloseClipboard();
+}
+
 void MBlakerApp::OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 {
     EnterCommand(hwnd);
@@ -1738,6 +1780,12 @@ void MBlakerApp::OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
         break;
     case ID_SETTINGS:
         OnSettings(hwnd);
+        break;
+    case ID_COPY:
+        OnCopy(hwnd);
+        break;
+    case ID_PASTE:
+        OnPaste(hwnd);
         break;
     }
 

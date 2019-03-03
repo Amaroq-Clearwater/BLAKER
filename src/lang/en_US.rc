@@ -31,7 +31,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
     }
     POPUP "&Edit"
     {
+        MENUITEM "&Copy\tCtrl+C", ID_COPY
         MENUITEM "&Rename\tF2", ID_RENAME
+        MENUITEM "&Paste\tCtrl+V", ID_PASTE
         MENUITEM SEPARATOR
         MENUITEM "&Delete\tDel", ID_DELETE
         MENUITEM SEPARATOR

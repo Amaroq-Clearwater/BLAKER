@@ -138,6 +138,8 @@ protected:
     void OnOpenReadMe(HWND hwnd);
     void OnSettings(HWND hwnd);
     void OnContextMenu(HWND hwnd, HWND hwndContext, UINT xPos, UINT yPos);
+    void OnCopy(HWND hwnd);
+    void OnPaste(HWND hwnd);
 
     struct QR_CALLBACK_DATA
     {

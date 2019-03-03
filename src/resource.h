@@ -86,12 +86,14 @@
 #define ID_ABOUT                            118
 #define ID_OPEN_README                      119
 #define ID_SETTINGS                         120
+#define ID_COPY                             121
+#define ID_PASTE                            122
 
 #ifdef APSTUDIO_INVOKED
     #ifndef APSTUDIO_READONLY_SYMBOLS
         #define _APS_NO_MFC                 1
         #define _APS_NEXT_RESOURCE_VALUE    100
-        #define _APS_NEXT_COMMAND_VALUE     121
+        #define _APS_NEXT_COMMAND_VALUE     123
         #define _APS_NEXT_CONTROL_VALUE     1000
         #define _APS_NEXT_SYMED_VALUE       300
     #endif

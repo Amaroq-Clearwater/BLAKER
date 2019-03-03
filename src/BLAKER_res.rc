@@ -44,6 +44,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
     "A", ID_SELECT_ALL, CONTROL, VIRTKEY
     VK_F2, ID_RENAME, VIRTKEY
     VK_DELETE, ID_DELETE, VIRTKEY
+    "C", ID_COPY, CONTROL, VIRTKEY
+    "V", ID_PASTE, CONTROL, VIRTKEY
 }
 
 //////////////////////////////////////////////////////////////////////////////

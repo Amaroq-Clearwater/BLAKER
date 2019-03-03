@@ -31,7 +31,9 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
     }
     POPUP "編集(&E)"
     {
+        MENUITEM "コピー(&C)\tCtrl+C", ID_COPY
         MENUITEM "名前の変更(&R)\tF2", ID_RENAME
+        MENUITEM "貼り付け(&P)\tCtrl+V", ID_PASTE
         MENUITEM SEPARATOR
         MENUITEM "削除(&D)\tDel", ID_DELETE
         MENUITEM SEPARATOR
