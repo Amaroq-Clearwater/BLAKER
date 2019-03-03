@@ -54,6 +54,7 @@ Do not waste papers. You can virtually print to a PDF file by using the PDF prin
 - 2019.XX.YY ver.0.7.2
     * Fix context menu.
     * Copy & Paste support.
+    * Update PDFium DLL files.
 
 ## Contact Us
 
