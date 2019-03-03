@@ -163,6 +163,8 @@ protected:
     void EnterCommand(HWND hwnd);
     void LeaveCommand(HWND hwnd);
     void scanError(HWND hwnd, QR_CALLBACK_DATA::ErrorType error);
+    BOOL GetSelection(HWND hwnd, std::vector<INT>& selection);
+    BOOL GetTempFullPaths(HWND hwnd, std::vector<std::wstring>& paths);
 };
 
 #endif  // ndef MBLAKER_PAPERS_APP_HPP_

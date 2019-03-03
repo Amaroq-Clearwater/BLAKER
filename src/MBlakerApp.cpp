@@ -1235,9 +1235,9 @@ void MBlakerApp::OnSelectAll(HWND hwnd)
     }
 }
 
-void MBlakerApp::OnBeginDrag(HWND hwnd)
+BOOL MBlakerApp::GetSelection(HWND hwnd, std::vector<INT>& selection)
 {
-    std::vector<INT> selection;
+    selection.clear();
 
     INT iItem = ListView_GetNextItem(m_hListView, -1, LVNI_SELECTED);
     while (iItem != -1)
@@ -1247,18 +1247,25 @@ void MBlakerApp::OnBeginDrag(HWND hwnd)
     }
 
     if (selection.empty())
-        return;
+        return FALSE;
+    return TRUE;
+}
+
+BOOL MBlakerApp::GetTempFullPaths(HWND hwnd, std::vector<std::wstring>& paths)
+{
+    std::vector<INT> selection;
+    if (!GetSelection(hwnd, selection))
+        return FALSE;
 
     std::wstring temp_dir;
     if (!CreateTempDir(temp_dir))
     {
         assert(0);
         ErrorBoxDx(IDS_CANTCREATETEMPDIR);
-        return;
+        return FALSE;
     }
     m_temp_dirs.push_back(temp_dir);
 
-    std::vector<std::wstring> names;
     for (size_t i = 0; i < selection.size(); ++i)
     {
         INT iItem = selection[i];
@@ -1276,7 +1283,7 @@ void MBlakerApp::OnBeginDrag(HWND hwnd)
         if (!ListView_GetItem(m_hListView, &item))
         {
             assert(0);
-            return;
+            return FALSE;
         }
 
         // check name
@@ -1284,7 +1291,7 @@ void MBlakerApp::OnBeginDrag(HWND hwnd)
         if (name != m_bins[iItem].filename)
         {
             assert(0);
-            return;
+            return FALSE;
         }
 
         // get full path
@@ -1296,16 +1303,25 @@ void MBlakerApp::OnBeginDrag(HWND hwnd)
         // create temporary file
         if (!DoSave(hwnd, szFile, m_bins[i].binary))
         {
-            return;
+            assert(0);
+            return FALSE;
         }
 
         // add name
-        names.push_back(name);
+        paths.push_back(name);
     }
-    selection.clear();
+
+    return !paths.empty();
+}
+
+void MBlakerApp::OnBeginDrag(HWND hwnd)
+{
+    std::vector<std::wstring> paths;
+    if (!GetTempFullPaths(hwnd, paths))
+        return;
 
     // create drag drop using temporary files
-    if (IDataObject *pDataObject = GetFileDataObject(names))
+    if (IDataObject *pDataObject = GetFileDataObject(paths))
     {
         if (IDropSource *pSource = MDropSource::CreateInstance())
         {
@@ -1674,6 +1690,50 @@ LRESULT MBlakerApp::OnNotify(HWND hwnd, int idFrom, LPNMHDR pnmhdr)
 
 void MBlakerApp::OnCopy(HWND hwnd)
 {
+    std::vector<std::wstring> paths;
+    if (!GetTempFullPaths(hwnd, paths))
+        return;
+
+    DWORD cbFiles = sizeof(DROPFILES);
+    for (auto& path : paths)
+    {
+        cbFiles += (path.size() + 1) * sizeof(WCHAR);
+    }
+    cbFiles += sizeof(WCHAR);
+
+    HGLOBAL hGlobal = ::GlobalAlloc(GHND | GMEM_SHARE, cbFiles);
+    if (!hGlobal)
+        return;
+
+    if (DROPFILES *files = (DROPFILES *)::GlobalLock(hGlobal))
+    {
+        files->pFiles = sizeof(DROPFILES);
+        files->pt.x = -1;
+        files->pt.y = -1;
+        files->fNC = TRUE;
+        files->fWide = TRUE;
+
+        LPWSTR pszz = (LPWSTR)(files + 1);
+        for (auto& path : paths)
+        {
+            size_t cchMax = path.size() + 1;
+            StringCchCopyW(pszz, cchMax, path.c_str());
+            pszz += lstrlen(pszz) + 1;
+        }
+        *pszz = 0;
+
+        ::GlobalUnlock(hGlobal);
+
+        if (::OpenClipboard(hwnd))
+        {
+            ::EmptyClipboard();
+            ::SetClipboardData(CF_HDROP, hGlobal);
+            ::CloseClipboard();
+            return;
+        }
+    }
+
+    ::GlobalFree(hGlobal);
 }
 
 void MBlakerApp::OnPaste(HWND hwnd)
