@@ -53,6 +53,7 @@ Do not waste papers. You can virtually print to a PDF file by using the PDF prin
     * Support 64-bit.
 - 2019.XX.YY ver.0.7.2
     * Fix context menu.
+    * Copy & Paste support.
 
 ## Contact Us
 
