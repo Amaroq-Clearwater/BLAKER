@@ -51,7 +51,7 @@ Do not waste papers. You can virtually print to a PDF file by using the PDF prin
     * Add menu item "Open ReadMe" to [Help] menu.
     * Add settings.
     * Support 64-bit.
-- 2019.XX.YY ver.0.7.2
+- 2019.03.03 ver.0.7.2
     * Fix context menu.
     * Copy & Paste support.
     * Update PDFium DLL files.
