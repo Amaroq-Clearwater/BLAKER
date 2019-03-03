@@ -436,7 +436,7 @@ bool MBlakerApp::QR_CALLBACK_DATA::operator()(zbar::Image::SymbolIterator& symbo
                     m_error = INVALID_HASH;
                     return false;
                 }
-                printf("%d/%d\n", iPart, cParts);
+                //printf("%d/%d\n", iPart, cParts);
             }
         }
     }
