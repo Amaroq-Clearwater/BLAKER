@@ -1894,12 +1894,14 @@ void MBlakerApp::OnInitMenuPopup(HWND hwnd, HMENU hMenu, UINT item, BOOL fSystem
         EnableMenuItem(hMenu, ID_RENAME, MF_GRAYED);
         EnableMenuItem(hMenu, ID_DELETE, MF_GRAYED);
         EnableMenuItem(hMenu, ID_SAVE_SELECTION, MF_GRAYED);
+        EnableMenuItem(hMenu, ID_COPY, MF_GRAYED);
     }
     else
     {
         EnableMenuItem(hMenu, ID_RENAME, MF_ENABLED);
         EnableMenuItem(hMenu, ID_DELETE, MF_ENABLED);
         EnableMenuItem(hMenu, ID_SAVE_SELECTION, MF_ENABLED);
+        EnableMenuItem(hMenu, ID_COPY, MF_ENABLED);
     }
 
     INT cItems = ListView_GetItemCount(m_hListView);
@@ -1916,6 +1918,15 @@ void MBlakerApp::OnInitMenuPopup(HWND hwnd, HMENU hMenu, UINT item, BOOL fSystem
         EnableMenuItem(hMenu, ID_PRINT, MF_ENABLED);
         EnableMenuItem(hMenu, ID_SCREEN, MF_ENABLED);
         EnableMenuItem(hMenu, ID_SAVEAS, MF_ENABLED);
+    }
+
+    if (::IsClipboardFormatAvailable(CF_HDROP))
+    {
+        EnableMenuItem(hMenu, ID_PASTE, MF_ENABLED);
+    }
+    else
+    {
+        EnableMenuItem(hMenu, ID_PASTE, MF_GRAYED);
     }
 
     switch (m_method)
