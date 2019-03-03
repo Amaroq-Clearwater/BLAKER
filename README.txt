@@ -30,7 +30,7 @@ We don't provide TWAIN interface. Please convert papers to a PDF file by another
 
 ## How much data size can be printed on one sheet?
 
-In default 60 DPI, it's about 20 KiB (after compression) in an A4 sheet (this is not a joke).
+In default 60 DPI, it's about 20 KiB (after compression) in an A4-sized sheet (this is not a joke).
 
 You can choose the higher dot density, but it might cause reading failure.
 
@@ -55,6 +55,7 @@ Do not waste papers. You can virtually print to a PDF file by using the PDF prin
     * Fix context menu.
     * Copy & Paste support.
     * Update PDFium DLL files.
+- 2019.XX.YY ver.0.7.3
 
 ## Contact Us
 

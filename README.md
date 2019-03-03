@@ -34,7 +34,7 @@ We don't provide TWAIN interface. Please convert papers to a PDF file by another
 
 ## How much data size can be printed on one sheet?
 
-In default 60 DPI, it's about 20 KiB (after compression) in an A4 sheet (this is not a joke).
+In default 60 DPI, it's about 20 KiB (after compression) in an A4-sized sheet (this is not a joke).
 
 You can choose the higher dot density, but it might cause reading failure.
 
